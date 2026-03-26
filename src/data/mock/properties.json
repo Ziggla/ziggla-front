@@ -1,0 +1,185 @@
+{
+  "properties": [
+    {
+      "slug": "luxury-properties",
+      "hostId": "usr-host-001",
+      "name": "Ziggla Luxury Properties",
+      "address": "800 Fulham Road A, SW6 5SL, London",
+      "neighborhood": "Putney",
+      "size": 200,
+      "type": "Studio",
+      "rating": 8.8,
+      "reviewCount": 47,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+      "images": [
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+          "label": "Main View"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg",
+          "label": "Living Area"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+          "label": "Jacuzzi"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg",
+          "label": "Kitchen"
+        }
+      ],
+      "scores": {
+        "staff": 9.6,
+        "amenities": 8.8,
+        "cleanliness": 8.8,
+        "comfort": 8.6,
+        "value": 8.8,
+        "location": 9.2,
+        "wifi": 10
+      },
+      "checkIn": "15:00–18:00",
+      "checkOut": "08:00–11:00",
+      "deposit": "£260",
+      "amenities": [
+        "Jacuzzi/Whirlpool",
+        "WiFi 66Mb/s",
+        "Full Kitchen",
+        "Air Conditioning",
+        "City View",
+        "Washing Machine",
+        "Flat Screen TV",
+        "Coffee Machine",
+        "Dishwasher",
+        "Microwave",
+        "Fridge",
+        "Dryer",
+        "Heating"
+      ],
+      "rules": [
+        "Adults only",
+        "No smoking",
+        "No parties or events",
+        "No pets"
+      ],
+      "reviews": [
+        {
+          "author": "Baptiste",
+          "country": "France",
+          "text": "Confortable, beaucoup d'équipements, et accessible."
+        },
+        {
+          "author": "Rebecca",
+          "country": "United Kingdom",
+          "text": "Perfect location with access to public transports and amenities, funky decor and well equipped flat (fun jacuzzi bath), brilliant host."
+        },
+        {
+          "author": "Fouad",
+          "country": "Ireland",
+          "text": "It was ideal for all our needs & a great location. Our host Mbi was very friendly & helpful & the apt was spotlessly clean."
+        },
+        {
+          "author": "Paula",
+          "country": "Australia",
+          "text": "The location was fabulous. Very clean and tidy and the host was friendly and always available. Bright and lively decor exactly as seen online."
+        }
+      ],
+      "pricePerNight": 450
+    },
+    {
+      "slug": "luxury-apartments",
+      "hostId": "usr-host-001",
+      "name": "Ziggla Luxury Apartments",
+      "address": "800ab Fulham Road, SW6 5SL, London",
+      "neighborhood": "Putney",
+      "size": 320,
+      "type": "1 Bedroom",
+      "rating": 8.6,
+      "reviewCount": 63,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+      "images": [
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+          "label": "Main View"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg",
+          "label": "Kitchen"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg",
+          "label": "Living Area"
+        },
+        {
+          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+          "label": "Entrance"
+        }
+      ],
+      "scores": {
+        "staff": 9.9,
+        "amenities": 9.0,
+        "cleanliness": 9.2,
+        "comfort": 9.1,
+        "value": 8.9,
+        "location": 9.2
+      },
+      "checkIn": "13:00–23:00",
+      "checkOut": "07:00–10:00",
+      "deposit": "£150 cash",
+      "amenities": [
+        "Jacuzzi/Whirlpool",
+        "WiFi",
+        "Full Kitchen",
+        "Air Conditioning",
+        "City View",
+        "Washing Machine",
+        "Flat Screen TV",
+        "Private Entrance",
+        "24h Security",
+        "Robes & Slippers",
+        "Hairdryer",
+        "Heating",
+        "Dryer"
+      ],
+      "rules": [
+        "Adults only",
+        "No smoking",
+        "No parties or events",
+        "No pets"
+      ],
+      "reviews": [
+        {
+          "author": "Sebastien",
+          "country": "France",
+          "text": "Petit appartement sympathique bien équipé. La propriétaire est accueillante et disponible. Proche du métro. Je recommande."
+        },
+        {
+          "author": "Jutta",
+          "country": "United Kingdom",
+          "text": "A really quirky little flat. Fully equipped kitchen, the bathroom is a riot of colour and has a lovely whirlpool tub."
+        },
+        {
+          "author": "Pauline",
+          "country": "United States",
+          "text": "Our host was personable, responsive, available and an absolute delight. The apartment was so cute and well decorated with a jacuzzi tub!"
+        },
+        {
+          "author": "Angelo",
+          "country": "United Kingdom",
+          "text": "variety of amenities, bath jacuzzi, overall ambience."
+        }
+      ],
+      "pricePerNight": 350
+    }
+  ],
+  "locationDistances": [
+    { "label": "Putney Bridge Tube Station", "distance": "700m", "icon": "train" },
+    { "label": "Parsons Green Tube", "distance": "1km", "icon": "train" },
+    { "label": "Putney Train Station", "distance": "1.3km", "icon": "directions_railway" },
+    { "label": "Big Ben & Westminster", "distance": "7km", "icon": "castle" },
+    { "label": "Heathrow Airport", "distance": "18km", "icon": "flight" },
+    { "label": "Restaurants (20m away)", "distance": "20m", "icon": "restaurant" },
+    { "label": "Victoria and Albert Museum", "distance": "4.5km", "icon": "museum" },
+    { "label": "Buckingham Palace", "distance": "6km", "icon": "domain" }
+  ]
+}

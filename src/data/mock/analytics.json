@@ -1,0 +1,80 @@
+{
+  "revenue": {
+    "total": 12400,
+    "growth": 12,
+    "monthly": [
+      { "month": "JAN", "amount": 1200, "highlight": false, "heightPercent": 44 },
+      { "month": "FEB", "amount": 1650, "highlight": false, "heightPercent": 61 },
+      { "month": "MAR", "amount": 1350, "highlight": false, "heightPercent": 50 },
+      { "month": "APR", "amount": 2100, "highlight": true,  "heightPercent": 78 },
+      { "month": "MAY", "amount": 1950, "highlight": false, "heightPercent": 72 },
+      { "month": "JUN", "amount": 2700, "highlight": true,  "heightPercent": 100 }
+    ]
+  },
+  "bookings": {
+    "total": 47,
+    "last30Days": 47,
+    "confirmed": 28,
+    "pending": 12,
+    "cancelled": 7
+  },
+  "users": {
+    "active": 32,
+    "total": 156,
+    "newThisMonth": 14
+  },
+  "occupancy": [
+    {
+      "propertyId": "prop-007",
+      "propertyName": "Azure Sky Penthouse",
+      "rate": 94,
+      "revenue": 8200,
+      "rating": 4.9,
+      "stars": 5,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg"
+    },
+    {
+      "propertyId": "prop-008",
+      "propertyName": "Onyx Minimalist Suite",
+      "rate": 78,
+      "revenue": 4200,
+      "rating": 4.2,
+      "stars": 4,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg"
+    }
+  ],
+  "hostProperties": [
+    {
+      "id": "prop-001",
+      "slug": "luxury-properties",
+      "name": "Ziggla Luxury Properties",
+      "neighborhood": "Putney",
+      "address": "800 Fulham Road A, SW6 5SL, London",
+      "type": "Studio",
+      "size": 200,
+      "pricePerNight": 450,
+      "rating": 8.8,
+      "reviewCount": 47,
+      "status": "active",
+      "occupancyRate": 82,
+      "revenueThisMonth": 1800,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg"
+    },
+    {
+      "id": "prop-002",
+      "slug": "luxury-apartments",
+      "name": "Ziggla Luxury Apartments",
+      "neighborhood": "Putney",
+      "address": "800ab Fulham Road, SW6 5SL, London",
+      "type": "1 Bedroom",
+      "size": 320,
+      "pricePerNight": 350,
+      "rating": 8.6,
+      "reviewCount": 63,
+      "status": "active",
+      "occupancyRate": 74,
+      "revenueThisMonth": 1400,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "conversations": [
+    {
+      "id": "conv-001",
+      "bookingId": "bk-005",
+      "propertyId": "prop-004",
+      "propertyName": "The Glass Loft",
+      "hostId": "usr-host-001",
+      "guestId": "usr-002",
+      "guestName": "Julianne Moore",
+      "guestInitials": "JM",
+      "lastMessage": "Hi, I wanted to confirm the check-in time for next week.",
+      "lastMessageAt": "2024-10-14T10:42:00Z",
+      "unreadHost": 2
+    },
+    {
+      "id": "conv-002",
+      "bookingId": "bk-006",
+      "propertyId": "prop-005",
+      "propertyName": "Terrace Gardens",
+      "hostId": "usr-host-001",
+      "guestId": "usr-003",
+      "guestName": "Marcus Chen",
+      "guestInitials": "MC",
+      "lastMessage": "Thank you so much, the apartment was stunning!",
+      "lastMessageAt": "2024-10-13T18:30:00Z",
+      "unreadHost": 0
+    },
+    {
+      "id": "conv-003",
+      "bookingId": "bk-007",
+      "propertyId": "prop-006",
+      "propertyName": "Riverbank Suite",
+      "hostId": "usr-host-001",
+      "guestId": "usr-004",
+      "guestName": "Elena Rodriguez",
+      "guestInitials": "ER",
+      "lastMessage": "Could we arrange for early check-in? We arrive at 10am.",
+      "lastMessageAt": "2024-10-12T09:15:00Z",
+      "unreadHost": 1
+    },
+    {
+      "id": "conv-004",
+      "bookingId": "bk-004",
+      "propertyId": "prop-004",
+      "propertyName": "The Glass Loft",
+      "hostId": "usr-host-001",
+      "guestId": "usr-006",
+      "guestName": "Thomas Wright",
+      "guestInitials": "TW",
+      "lastMessage": "Perfect, see you on the 20th!",
+      "lastMessageAt": "2024-10-10T16:00:00Z",
+      "unreadHost": 0
+    }
+  ],
+  "messagesByConversation": {
+    "conv-001": [
+      {
+        "id": "msg-001",
+        "conversationId": "conv-001",
+        "fromUserId": "usr-002",
+        "fromRole": "guest",
+        "text": "Hello! I wanted to confirm the check-in time for next week.",
+        "createdAt": "2024-10-14T10:38:00Z"
+      },
+      {
+        "id": "msg-002",
+        "conversationId": "conv-001",
+        "fromUserId": "usr-host-001",
+        "fromRole": "host",
+        "text": "Hi Julianne! Check-in is from 3PM onwards. I'll send you the digital key instructions closer to your arrival date.",
+        "createdAt": "2024-10-14T10:40:00Z"
+      },
+      {
+        "id": "msg-003",
+        "conversationId": "conv-001",
+        "fromUserId": "usr-002",
+        "fromRole": "guest",
+        "text": "That's perfect, thank you! Is parking available nearby?",
+        "createdAt": "2024-10-14T10:41:00Z"
+      },
+      {
+        "id": "msg-004",
+        "conversationId": "conv-001",
+        "fromUserId": "usr-002",
+        "fromRole": "guest",
+        "text": "Hi, I wanted to confirm the check-in time for next week.",
+        "createdAt": "2024-10-14T10:42:00Z"
+      }
+    ]
+  }
+}

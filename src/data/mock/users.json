@@ -1,0 +1,108 @@
+[
+  {
+    "id": "usr-001",
+    "firstName": "Alex",
+    "lastName": "Mercer",
+    "email": "alex.mercer@example.com",
+    "role": "user",
+    "initials": "AM",
+    "bookingsCount": 4,
+    "lastActive": "Active Now",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-002",
+    "firstName": "Julianne",
+    "lastName": "Moore",
+    "email": "julianne.m@example.com",
+    "role": "user",
+    "initials": "JM",
+    "bookingsCount": 12,
+    "lastActive": "2h ago",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-003",
+    "firstName": "Marcus",
+    "lastName": "Chen",
+    "email": "marcus.c@cloud.com",
+    "role": "user",
+    "initials": "MC",
+    "bookingsCount": 3,
+    "lastActive": "Yesterday",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-004",
+    "firstName": "Elena",
+    "lastName": "Rodriguez",
+    "email": "e.rodriguez@example.com",
+    "role": "user",
+    "initials": "ER",
+    "bookingsCount": 7,
+    "lastActive": "3h ago",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-005",
+    "firstName": "Sarah",
+    "lastName": "Jenkins",
+    "email": "sarah.j@example.com",
+    "role": "user",
+    "initials": "SJ",
+    "bookingsCount": 12,
+    "lastActive": "2h ago",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-006",
+    "firstName": "David",
+    "lastName": "Chen",
+    "email": "d.chen@cloud.com",
+    "role": "user",
+    "initials": "DC",
+    "bookingsCount": 3,
+    "lastActive": "Yesterday",
+    "avatarBg": "bg-surface-container-highest"
+  },
+  {
+    "id": "usr-host-001",
+    "firstName": "Ziggla",
+    "lastName": "Properties",
+    "email": "contact@ziggla.com",
+    "role": "host",
+    "initials": "ZP",
+    "bookingsCount": 8,
+    "lastActive": "Active Now",
+    "avatarBg": "bg-primary-container",
+    "bio": "We take pride in offering a premium stay experience. Our apartments are thoughtfully designed, spotlessly maintained, and located minutes from the best of London. We're always available to help make your visit seamless.",
+    "languages": ["English", "French"],
+    "memberSince": "January 2023",
+    "guestsWelcomed": 94,
+    "responseRate": 98,
+    "totalStaysHosted": 47,
+    "averageRating": 8.8
+  },
+  {
+    "id": "usr-host-002",
+    "firstName": "Elena",
+    "lastName": "Rossi",
+    "email": "elena.r@ziggla.io",
+    "role": "host",
+    "initials": "ER",
+    "bookingsCount": 5,
+    "lastActive": "1h ago",
+    "avatarBg": "bg-primary-container"
+  },
+  {
+    "id": "usr-admin-001",
+    "firstName": "James",
+    "lastName": "Doyle",
+    "email": "j.doyle@ziggla.io",
+    "role": "admin",
+    "initials": "JD",
+    "bookingsCount": 0,
+    "lastActive": "Active Now",
+    "avatarBg": "bg-primary-container"
+  }
+]

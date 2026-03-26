@@ -1,0 +1,346 @@
+[
+  {
+    "id": "bk-001",
+    "reference": "ZG-9284",
+    "property": {
+      "id": "prop-001",
+      "slug": "gilded-atelier",
+      "name": "The Gilded Atelier",
+      "neighborhood": "Kensington",
+      "type": "Studio",
+      "pricePerNight": 280,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg"
+    },
+    "guest": {
+      "id": "usr-001",
+      "firstName": "Alex",
+      "lastName": "Mercer",
+      "email": "alex.mercer@example.com",
+      "initials": "AM"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-11-12",
+    "checkOut": "2024-11-15",
+    "nights": 3,
+    "guestsCount": 2,
+    "subtotal": 840,
+    "serviceFee": 100.8,
+    "total": 840,
+    "status": "confirmed",
+    "hasReview": false,
+    "createdAt": "2024-10-28T10:30:00Z",
+    "timeline": [
+      { "icon": "check_circle", "label": "Confirmed", "date": "Oct 28, 2024", "done": true },
+      { "icon": "schedule", "label": "Approaching", "date": "Nov 11, 2024", "done": false },
+      { "icon": "home", "label": "Complete", "date": "Nov 15, 2024", "done": false }
+    ],
+    "houseRules": [
+      { "icon": "smoke_free", "label": "No smoking" },
+      { "icon": "pets", "label": "Pets allowed" },
+      { "icon": "party_mode", "label": "No parties" },
+      { "icon": "access_time", "label": "Check-in after 3 PM" }
+    ]
+  },
+  {
+    "id": "bk-002",
+    "reference": "ZG-8102",
+    "property": {
+      "id": "prop-002",
+      "slug": "azure-bay-loft",
+      "name": "Azure Bay Loft",
+      "neighborhood": "Putney",
+      "type": "1 Bedroom",
+      "pricePerNight": 152,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg"
+    },
+    "guest": {
+      "id": "usr-001",
+      "firstName": "Alex",
+      "lastName": "Mercer",
+      "email": "alex.mercer@example.com",
+      "initials": "AM"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-08-04",
+    "checkOut": "2024-08-08",
+    "nights": 4,
+    "guestsCount": 2,
+    "subtotal": 610,
+    "serviceFee": 73.2,
+    "total": 610,
+    "status": "completed",
+    "hasReview": false,
+    "createdAt": "2024-07-20T09:00:00Z"
+  },
+  {
+    "id": "bk-003",
+    "reference": "ZG-7741",
+    "property": {
+      "id": "prop-003",
+      "slug": "minimalist-zen-suite",
+      "name": "Minimalist Zen Suite",
+      "neighborhood": "Chelsea",
+      "type": "Studio",
+      "pricePerNight": 112,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg"
+    },
+    "guest": {
+      "id": "usr-001",
+      "firstName": "Alex",
+      "lastName": "Mercer",
+      "email": "alex.mercer@example.com",
+      "initials": "AM"
+    },
+    "host": {
+      "id": "usr-host-002",
+      "firstName": "Elena",
+      "lastName": "Rossi",
+      "email": "elena.r@ziggla.io",
+      "initials": "ER"
+    },
+    "checkIn": "2024-05-21",
+    "checkOut": "2024-05-25",
+    "nights": 4,
+    "guestsCount": 1,
+    "subtotal": 450,
+    "serviceFee": 54,
+    "total": 450,
+    "status": "completed",
+    "hasReview": true,
+    "createdAt": "2024-05-01T11:00:00Z"
+  },
+  {
+    "id": "bk-004",
+    "reference": "ZG-6930",
+    "property": {
+      "id": "prop-004",
+      "slug": "the-glass-loft",
+      "name": "The Glass Loft",
+      "neighborhood": "Shoreditch",
+      "type": "1 Bedroom",
+      "pricePerNight": 240,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg"
+    },
+    "guest": {
+      "id": "usr-001",
+      "firstName": "Alex",
+      "lastName": "Mercer",
+      "email": "alex.mercer@example.com",
+      "initials": "AM"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-03-10",
+    "checkOut": "2024-03-13",
+    "nights": 3,
+    "guestsCount": 2,
+    "subtotal": 720,
+    "serviceFee": 86.4,
+    "total": 720,
+    "status": "cancelled",
+    "hasReview": false,
+    "createdAt": "2024-02-28T14:00:00Z"
+  },
+  {
+    "id": "bk-005",
+    "reference": "ZG-9285",
+    "property": {
+      "id": "prop-004",
+      "slug": "the-glass-loft",
+      "name": "The Glass Loft",
+      "neighborhood": "Shoreditch",
+      "type": "1 Bedroom",
+      "pricePerNight": 240,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg"
+    },
+    "guest": {
+      "id": "usr-002",
+      "firstName": "Julianne",
+      "lastName": "Moore",
+      "email": "julianne.m@example.com",
+      "initials": "JM"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-10-12",
+    "checkOut": "2024-10-15",
+    "nights": 3,
+    "guestsCount": 2,
+    "subtotal": 850,
+    "serviceFee": 102,
+    "total": 850,
+    "status": "confirmed",
+    "hasReview": false,
+    "createdAt": "2024-09-30T08:00:00Z"
+  },
+  {
+    "id": "bk-006",
+    "reference": "ZG-9286",
+    "property": {
+      "id": "prop-005",
+      "slug": "terrace-gardens",
+      "name": "Terrace Gardens",
+      "neighborhood": "Notting Hill",
+      "type": "2 Bedroom",
+      "pricePerNight": 260,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg"
+    },
+    "guest": {
+      "id": "usr-003",
+      "firstName": "Marcus",
+      "lastName": "Chen",
+      "email": "marcus.c@cloud.com",
+      "initials": "MC"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-10-14",
+    "checkOut": "2024-10-16",
+    "nights": 2,
+    "guestsCount": 2,
+    "subtotal": 520,
+    "serviceFee": 62.4,
+    "total": 520,
+    "status": "pending",
+    "hasReview": false,
+    "createdAt": "2024-10-01T10:00:00Z"
+  },
+  {
+    "id": "bk-007",
+    "reference": "ZG-9287",
+    "property": {
+      "id": "prop-006",
+      "slug": "riverbank-suite",
+      "name": "Riverbank Suite",
+      "neighborhood": "Waterloo",
+      "type": "Studio",
+      "pricePerNight": 350,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg"
+    },
+    "guest": {
+      "id": "usr-004",
+      "firstName": "Elena",
+      "lastName": "Rodriguez",
+      "email": "e.rodriguez@example.com",
+      "initials": "ER"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-10-10",
+    "checkOut": "2024-10-13",
+    "nights": 3,
+    "guestsCount": 2,
+    "subtotal": 1050,
+    "serviceFee": 126,
+    "total": 1050,
+    "status": "checked_in",
+    "hasReview": false,
+    "createdAt": "2024-10-01T12:00:00Z"
+  },
+  {
+    "id": "bk-008",
+    "reference": "ZG-9288",
+    "property": {
+      "id": "prop-007",
+      "slug": "azure-sky-penthouse",
+      "name": "Azure Sky Penthouse",
+      "neighborhood": "Mayfair",
+      "type": "Penthouse",
+      "pricePerNight": 400,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg"
+    },
+    "guest": {
+      "id": "usr-005",
+      "firstName": "Sarah",
+      "lastName": "Jenkins",
+      "email": "sarah.j@example.com",
+      "initials": "SJ"
+    },
+    "host": {
+      "id": "usr-host-001",
+      "firstName": "Ziggla",
+      "lastName": "Properties",
+      "email": "contact@ziggla.com",
+      "initials": "ZP"
+    },
+    "checkIn": "2024-10-18",
+    "checkOut": "2024-10-21",
+    "nights": 3,
+    "guestsCount": 2,
+    "subtotal": 1200,
+    "serviceFee": 144,
+    "total": 1200,
+    "status": "confirmed",
+    "hasReview": false,
+    "createdAt": "2024-10-05T09:00:00Z"
+  },
+  {
+    "id": "bk-009",
+    "reference": "ZG-9289",
+    "property": {
+      "id": "prop-008",
+      "slug": "onyx-minimalist-suite",
+      "name": "Onyx Minimalist Suite",
+      "neighborhood": "Clerkenwell",
+      "type": "Studio",
+      "pricePerNight": 283,
+      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg"
+    },
+    "guest": {
+      "id": "usr-006",
+      "firstName": "David",
+      "lastName": "Chen",
+      "email": "d.chen@cloud.com",
+      "initials": "DC"
+    },
+    "host": {
+      "id": "usr-host-002",
+      "firstName": "Elena",
+      "lastName": "Rossi",
+      "email": "elena.r@ziggla.io",
+      "initials": "ER"
+    },
+    "checkIn": "2024-10-22",
+    "checkOut": "2024-10-25",
+    "nights": 3,
+    "guestsCount": 1,
+    "subtotal": 850,
+    "serviceFee": 102,
+    "total": 850,
+    "status": "pending",
+    "hasReview": false,
+    "createdAt": "2024-10-08T14:00:00Z"
+  }
+]
