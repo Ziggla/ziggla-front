@@ -35,7 +35,7 @@ export default function AboutSection() {
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto mb-8 h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent"
+          className="mx-auto mb-8 h-px w-24 bg-linear-to-r from-transparent via-primary to-transparent"
         />
 
         <motion.p

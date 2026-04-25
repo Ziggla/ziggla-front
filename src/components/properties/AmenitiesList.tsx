@@ -39,7 +39,7 @@ export default function AmenitiesList({ amenities }: AmenitiesListProps) {
           transition={{ duration: 0.4, delay: 0.05 * index }}
           className="flex items-center gap-3 bg-surface-container-high rounded-xl px-4 py-3"
         >
-          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
             <span className="material-symbols-outlined text-primary text-base">
               {amenityIconMap[amenity] ?? "check_circle"}
             </span>

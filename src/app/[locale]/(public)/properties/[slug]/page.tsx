@@ -99,7 +99,7 @@ export default async function PropertyDetailPage({
               <h2 className="font-headline text-2xl font-light text-on-surface mb-4">
                 {t("theEssence")}
               </h2>
-              <div className="h-px w-16 bg-gradient-to-r from-primary/60 to-transparent mb-4" />
+              <div className="h-px w-16 bg-linear-to-r from-primary/60 to-transparent mb-4" />
               <p className="text-on-surface-variant font-body text-base leading-relaxed">
                 Welcome to {property.name} — a stunning {property.type.toLowerCase()} set in the
                 heart of Putney, London. Spanning {property.size}m², this

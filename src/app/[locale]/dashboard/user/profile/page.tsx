@@ -1,19 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import DashboardShell from "@/components/layout/DashboardShell";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { apiFetch } from "@/lib/api/client";
+
+interface RawProfile {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone?: string | null;
+  nationality?: string | null;
+  language?: "en" | "fr" | null;
+  notif_booking_updates?: boolean;
+  notif_sms?: boolean;
+  notif_marketing?: boolean;
+}
 
 export default function UserProfilePage() {
   const t = useTranslations("dashboard.user.profile");
   const { user } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [nationality, setNationality] = useState("GB");
   const [bookingUpdates, setBookingUpdates] = useState(true);
   const [smsNotifs, setSmsNotifs] = useState(false);
   const [marketing, setMarketing] = useState(true);
   const [activeLang, setActiveLang] = useState<"EN" | "FR">("EN");
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    apiFetch<RawProfile>("/users/me")
+      .then((p) => {
+        setFirstName(p.first_name ?? "");
+        setLastName(p.last_name ?? "");
+        setEmail(p.email ?? "");
+        setPhone(p.phone ?? "");
+        setNationality(p.nationality ?? "GB");
+        setActiveLang(p.language === "fr" ? "FR" : "EN");
+        setBookingUpdates(p.notif_booking_updates ?? true);
+        setSmsNotifs(p.notif_sms ?? false);
+        setMarketing(p.notif_marketing ?? true);
+      })
+      .catch((err) => console.error("Failed to load profile", err));
+  }, []);
+
+  function handleSave(e: React.FormEvent) {
+    e.preventDefault();
+    setIsSaving(true);
+    apiFetch("/users/me", {
+      method: "PATCH",
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        nationality,
+      }),
+    })
+      .catch((err) => console.error("Failed to save profile", err))
+      .finally(() => setIsSaving(false));
+  }
+
+  function handlePreferenceChange(patch: Record<string, unknown>) {
+    apiFetch("/users/me/preferences", {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    }).catch((err) => console.error("Failed to update preferences", err));
+  }
 
   return (
     <DashboardShell role="user" activeItem="profile">
@@ -73,14 +132,15 @@ export default function UserProfilePage() {
                   </div>
                 </div>
 
-                <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-5" onSubmit={handleSave}>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
                         {t("firstName")}
                       </label>
                       <input
-                        defaultValue="Alex"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all"
                         type="text"
                       />
@@ -90,7 +150,8 @@ export default function UserProfilePage() {
                         {t("lastName")}
                       </label>
                       <input
-                        defaultValue="Mercer"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all"
                         type="text"
                       />
@@ -102,7 +163,8 @@ export default function UserProfilePage() {
                       {t("email")}
                     </label>
                     <input
-                      defaultValue="alex.mercer@example.com"
+                      value={email}
+                      readOnly
                       disabled
                       className="w-full bg-surface-container-high/50 border-none rounded-lg p-4 text-on-surface-variant/60 outline-none cursor-not-allowed"
                       type="email"
@@ -115,7 +177,8 @@ export default function UserProfilePage() {
                         {t("phone")}
                       </label>
                       <input
-                        defaultValue="+44 7700 900123"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all"
                         type="tel"
                       />
@@ -124,7 +187,11 @@ export default function UserProfilePage() {
                       <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
                         {t("nationality")}
                       </label>
-                      <select className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface focus:ring-1 focus:ring-primary/40 outline-none transition-all appearance-none">
+                      <select
+                        value={nationality}
+                        onChange={(e) => setNationality(e.target.value)}
+                        className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface focus:ring-1 focus:ring-primary/40 outline-none transition-all appearance-none"
+                      >
                         <option value="GB">United Kingdom</option>
                         <option value="FR">France</option>
                         <option value="US">United States</option>
@@ -136,7 +203,8 @@ export default function UserProfilePage() {
 
                   <button
                     type="submit"
-                    className="gold-gradient text-on-primary px-8 py-3 rounded-lg font-label font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-opacity"
+                    disabled={isSaving}
+                    className="gold-gradient text-on-primary px-8 py-3 rounded-lg font-label font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
                     {t("saveChanges")}
                   </button>
@@ -162,7 +230,10 @@ export default function UserProfilePage() {
                     {(["EN", "FR"] as const).map((lang) => (
                       <button
                         key={lang}
-                        onClick={() => setActiveLang(lang)}
+                        onClick={() => {
+                          setActiveLang(lang);
+                          handlePreferenceChange({ language: lang.toLowerCase() });
+                        }}
                         className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${
                           activeLang === lang
                             ? "gold-gradient text-on-primary"
@@ -182,14 +253,18 @@ export default function UserProfilePage() {
                   </p>
                   <div className="space-y-3">
                     {[
-                      { label: t("bookingUpdates"), value: bookingUpdates, set: setBookingUpdates },
-                      { label: t("smsNotifs"), value: smsNotifs, set: setSmsNotifs },
-                      { label: t("marketing"), value: marketing, set: setMarketing },
+                      { label: t("bookingUpdates"), value: bookingUpdates, set: setBookingUpdates, key: "notif_booking_updates" },
+                      { label: t("smsNotifs"), value: smsNotifs, set: setSmsNotifs, key: "notif_sms" },
+                      { label: t("marketing"), value: marketing, set: setMarketing, key: "notif_marketing" },
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-center justify-between">
                         <span className="text-sm text-on-surface">{item.label}</span>
                         <button
-                          onClick={() => item.set(!item.value)}
+                          onClick={() => {
+                            const next = !item.value;
+                            item.set(next);
+                            handlePreferenceChange({ [item.key]: next });
+                          }}
                           className={`w-10 h-6 rounded-full transition-all relative ${
                             item.value ? "bg-primary" : "bg-surface-container-highest"
                           }`}
@@ -227,7 +302,7 @@ export default function UserProfilePage() {
 
                   <div className="flex items-center justify-between p-3 bg-surface-container-high rounded-lg">
                     <div className="flex items-center gap-3">
-                      <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />

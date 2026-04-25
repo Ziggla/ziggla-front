@@ -33,7 +33,7 @@ export default function CookieBanner() {
     >
       <div className="max-w-4xl mx-auto bg-surface-container border border-surface-variant rounded-xl p-5 sm:p-6 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <div className="flex items-start gap-4 flex-1">
-          <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5">
+          <span className="material-symbols-outlined text-primary text-2xl shrink-0 mt-0.5">
             cookie
           </span>
           <div>
@@ -51,7 +51,7 @@ export default function CookieBanner() {
           </div>
         </div>
 
-        <div className="flex gap-3 flex-shrink-0 w-full sm:w-auto">
+        <div className="flex gap-3 shrink-0 w-full sm:w-auto">
           <button
             onClick={decline}
             className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-label font-semibold text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-colors uppercase tracking-widest"

@@ -25,7 +25,7 @@ export default async function PropertiesPage() {
               <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-light text-on-surface mb-4">
                 {t("title")}
               </h1>
-              <div className="mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+              <div className="mx-auto h-px w-24 bg-linear-to-r from-transparent via-primary/40 to-transparent" />
             </div>
     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">

@@ -98,7 +98,7 @@ export default function BookingConfirmationPage() {
           </h3>
           <div className="space-y-8">
             <div className="flex gap-6 items-start">
-              <div className="bg-surface-container-high p-3 rounded-lg text-primary flex-shrink-0">
+              <div className="bg-surface-container-high p-3 rounded-lg text-primary shrink-0">
                 <span className="material-symbols-outlined">mail</span>
               </div>
               <div>
@@ -109,7 +109,7 @@ export default function BookingConfirmationPage() {
               </div>
             </div>
             <div className="flex gap-6 items-start">
-              <div className="bg-surface-container-high p-3 rounded-lg text-primary flex-shrink-0">
+              <div className="bg-surface-container-high p-3 rounded-lg text-primary shrink-0">
                 <span className="material-symbols-outlined">concierge</span>
               </div>
               <div>
@@ -120,7 +120,7 @@ export default function BookingConfirmationPage() {
               </div>
             </div>
             <div className="flex gap-6 items-start">
-              <div className="bg-surface-container-high p-3 rounded-lg text-primary flex-shrink-0">
+              <div className="bg-surface-container-high p-3 rounded-lg text-primary shrink-0">
                 <span className="material-symbols-outlined">key</span>
               </div>
               <div>

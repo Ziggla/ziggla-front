@@ -128,7 +128,7 @@ export default async function HostProfilePage({
       </section>
 
       {/* ── Stats strip ── */}
-      <section className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-8 mb-20 lg:mb-24">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 mb-20 lg:mb-24">
         <div className="grid grid-cols-2 lg:grid-cols-4 rounded-xl overflow-hidden bg-outline-variant/10">
           {[
             { value: String(host.guestsWelcomed ?? 94), label: "Guests welcomed" },
@@ -173,7 +173,7 @@ export default async function HostProfilePage({
 
       {/* ── Two-column: About + Scores ── */}
       <section className="relative z-10 mb-24 lg:mb-32">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
 
           {/* Left */}
           <div className="space-y-16 lg:mt-16">
@@ -223,7 +223,7 @@ export default async function HostProfilePage({
                       href={`/properties/${p.slug}`}
                       className="group bg-surface-container rounded-xl overflow-hidden hover:bg-surface-container-high transition-colors flex flex-col sm:flex-row"
                     >
-                      <div className="overflow-hidden flex-shrink-0 h-48 sm:h-auto sm:w-48 lg:w-64">
+                      <div className="overflow-hidden shrink-0 h-48 sm:h-auto sm:w-48 lg:w-64">
                         <Image
                           src={p.coverImage}
                           alt={p.name}
@@ -304,7 +304,7 @@ export default async function HostProfilePage({
 
       {/* ── Reviews ── */}
       <section className="relative z-10 mb-16">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <h2 className="font-headline text-3xl lg:text-4xl italic mb-12 text-center mt-16">
             What guests say
           </h2>
@@ -317,7 +317,7 @@ export default async function HostProfilePage({
               >
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary shrink-0">
                       {initial}
                     </div>
                     <div>
@@ -327,7 +327,7 @@ export default async function HostProfilePage({
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-0.5 flex-shrink-0">
+                  <div className="flex gap-0.5 shrink-0">
                     {[1, 2, 3, 4, 5].map((s) => (
                       <span
                         key={s}

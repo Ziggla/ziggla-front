@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
 
         {/* Spam note */}
         <div className="mt-6 flex items-start gap-3 bg-surface-container-high rounded-lg p-4">
-          <span className="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">info</span>
+          <span className="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">info</span>
           <p className="text-xs text-on-surface-variant leading-relaxed">{t("spamNote")}</p>
         </div>
 

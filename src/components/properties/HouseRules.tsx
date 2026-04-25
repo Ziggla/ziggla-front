@@ -53,7 +53,7 @@ export default function HouseRules({
             key={rule}
             className="flex items-center gap-3 bg-error/5 rounded-xl px-4 py-3"
           >
-            <div className="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-error text-base">
                 {ruleIconMap[rule] ?? "block"}
               </span>

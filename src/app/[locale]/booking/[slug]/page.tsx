@@ -211,7 +211,7 @@ export default function BookingPage() {
             <label className="flex items-start gap-3 cursor-pointer">
               <button
                 onClick={() => setAgreed(!agreed)}
-                className={`w-5 h-5 mt-0.5 rounded-sm flex items-center justify-center transition-colors flex-shrink-0 ${
+                className={`w-5 h-5 mt-0.5 rounded-sm flex items-center justify-center transition-colors shrink-0 ${
                   agreed ? "bg-primary" : "border-2 border-outline-variant"
                 }`}
               >

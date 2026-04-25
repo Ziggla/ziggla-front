@@ -59,7 +59,7 @@ export default function TestimonialsSection() {
           <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-light text-on-surface">
             {t("title")}
           </h2>
-          <div className="mt-6 mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          <div className="mt-6 mx-auto h-px w-24 bg-linear-to-r from-transparent via-primary/40 to-transparent" />
         </motion.div>
 
         <div className="relative">

@@ -27,7 +27,7 @@ export default function LocationSection() {
             <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-light text-on-surface leading-tight mb-6">
               {t("title")}
             </h2>
-            <div className="h-px w-24 bg-gradient-to-r from-primary/60 to-transparent mb-6" />
+            <div className="h-px w-24 bg-linear-to-r from-primary/60 to-transparent mb-6" />
             <p className="text-on-surface-variant font-body text-base leading-relaxed mb-10">
               {t("description")}
             </p>
@@ -43,7 +43,7 @@ export default function LocationSection() {
                   transition={{ duration: 0.5, delay: 0.1 * index }}
                   className="flex items-center gap-4"
                 >
-                  <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-primary text-xl">
                       {item.icon}
                     </span>

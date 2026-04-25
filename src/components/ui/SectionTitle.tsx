@@ -36,7 +36,7 @@ export default function SectionTitle({
         </p>
       )}
       <div
-        className={`mt-6 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent ${
+        className={`mt-6 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent ${
           centered ? "mx-auto" : ""
         } w-48`}
       />

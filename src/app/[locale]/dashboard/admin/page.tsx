@@ -53,8 +53,8 @@ function toBookingRow(b: Booking): BookingRow {
     id: `#${b.reference}`,
     property: b.property.name,
     image: b.property.coverImage,
-    host: `${b.host.firstName} ${b.host.lastName.charAt(0)}.`,
-    guest: `${b.guest.firstName} ${b.guest.lastName}`,
+    host: b.host ? `${b.host.firstName} ${b.host.lastName.charAt(0)}.` : "—",
+    guest: b.guest ? `${b.guest.firstName} ${b.guest.lastName}` : "—",
     status: b.status,
     amount: `£${b.total.toFixed(2)}`,
   };
@@ -338,7 +338,7 @@ export default function AdminDashboardPage() {
                     <td className="px-6 py-4 font-mono text-xs text-on-surface">{row.id}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded overflow-hidden relative flex-shrink-0">
+                        <div className="w-8 h-8 rounded overflow-hidden relative shrink-0">
                           <Image src={row.image} alt={row.property} loading="eager" fill className="object-cover" sizes="32px" />
                         </div>
                         <span className="text-sm font-bold text-on-surface">{row.property}</span>
@@ -378,7 +378,7 @@ export default function AdminDashboardPage() {
                   key={idx}
                   className="bg-surface-container-low p-5 rounded-xl flex gap-5 group hover:shadow-2xl hover:shadow-primary/5 transition-all"
                 >
-                  <div className="w-24 h-24 rounded-lg overflow-hidden relative flex-shrink-0">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden relative shrink-0">
                     <Image src={prop.image} alt={prop.name} loading="eager" fill className="object-cover" sizes="96px" />
                   </div>
                   <div className="flex-1 flex flex-col justify-between">

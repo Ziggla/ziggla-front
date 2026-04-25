@@ -1,5 +1,4 @@
-import rawUsers from "@/data/mock/users.json";
-import { mockFetch } from "./client";
+import { apiFetch } from "./client";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -24,19 +23,69 @@ export interface User {
   averageRating?: number;
 }
 
+interface RawUser {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: User["role"];
+  created_at: string;
+  avatar_url?: string | null;
+  _count?: { bookings?: number };
+}
+
+const AVATAR_BGS = [
+  "bg-surface-container-highest",
+  "bg-primary-container",
+  "bg-secondary/30",
+  "bg-tertiary/30",
+];
+
+function initialsOf(first?: string, last?: string): string {
+  return ((first?.[0] ?? "?") + (last?.[0] ?? "?")).toUpperCase();
+}
+
+function formatRelative(iso: string): string {
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "—";
+  const diffDays = Math.floor((Date.now() - then) / (1000 * 60 * 60 * 24));
+  if (diffDays <= 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 30) return `${diffDays}d ago`;
+  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function mapUser(raw: RawUser, idx = 0): User {
+  return {
+    id: raw.id,
+    firstName: raw.first_name,
+    lastName: raw.last_name,
+    email: raw.email,
+    role: raw.role,
+    initials: initialsOf(raw.first_name, raw.last_name),
+    bookingsCount: raw._count?.bookings ?? 0,
+    lastActive: formatRelative(raw.created_at),
+    avatarBg: AVATAR_BGS[idx % AVATAR_BGS.length],
+  };
+}
+
 // ---------------------------------------------------------------------------
 // API functions
 // ---------------------------------------------------------------------------
 
-const users = rawUsers as User[];
-
-/** Returns all users. */
+/** Admin: list all users. */
 export async function getUsers(): Promise<User[]> {
-  return mockFetch(users, "/users");
+  const raw = await apiFetch<RawUser[]>("/users");
+  return raw.map(mapUser);
 }
 
-/** Returns a single user by id, or null if not found. */
+/** Admin: get a single user. */
 export async function getUser(id: string): Promise<User | null> {
-  const data = users.find((u) => u.id === id) ?? null;
-  return mockFetch(data, `/users/${id}`);
+  try {
+    const raw = await apiFetch<RawUser>(`/users/${id}`);
+    return mapUser(raw);
+  } catch (err) {
+    if (err instanceof Error && err.message.includes(" 404")) return null;
+    throw err;
+  }
 }

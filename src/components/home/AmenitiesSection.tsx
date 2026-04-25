@@ -35,7 +35,7 @@ export default function AmenitiesSection() {
             <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-light text-on-surface leading-tight mb-6">
               {t("title")}
             </h2>
-            <div className="h-px w-24 bg-gradient-to-r from-primary/60 to-transparent mb-6" />
+            <div className="h-px w-24 bg-linear-to-r from-primary/60 to-transparent mb-6" />
             <p className="text-on-surface-variant font-body text-base md:text-lg leading-relaxed">
               {t("description")}
             </p>

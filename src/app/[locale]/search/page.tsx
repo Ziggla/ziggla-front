@@ -75,7 +75,7 @@ export default function SearchPage() {
 
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Filter Sidebar */}
-        <aside className="w-full lg:w-64 flex-shrink-0 space-y-10">
+        <aside className="w-full lg:w-64 shrink-0 space-y-10">
           <div>
             <h3 className="font-headline text-on-surface text-xl mb-6">
               {t("refineStay")}
@@ -165,7 +165,7 @@ export default function SearchPage() {
               className="group flex flex-col md:flex-row bg-surface-container-low overflow-hidden rounded-lg hover:bg-surface-container transition-all duration-500"
             >
               {/* Image */}
-              <div className="relative w-full md:w-[380px] h-[260px] flex-shrink-0 overflow-hidden">
+              <div className="relative w-full md:w-[380px] h-[260px] shrink-0 overflow-hidden">
                 <Image
                   loading="eager"
                   src={property.coverImage}

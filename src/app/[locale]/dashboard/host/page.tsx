@@ -35,7 +35,7 @@ type BookingRow = {
 
 function toBookingRow(b: Booking, idx: number): BookingRow {
   return {
-    guest: `${b.guest.firstName} ${b.guest.lastName}`,
+    guest: b.guest ? `${b.guest.firstName} ${b.guest.lastName}` : "—",
     property: b.property.name,
     checkIn: b.checkIn,
     checkOut: b.checkOut,
@@ -247,7 +247,7 @@ export default function HostDashboardPage() {
                 ))}
               </div>
               <div className="mt-8 flex items-center gap-4 p-4 bg-surface-container-high rounded-lg">
-                <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 relative">
+                <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 relative">
                   <Image
                     src={KITCHEN}
                     alt="Next Check-in"

@@ -4,15 +4,15 @@ import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import DashboardShell from "@/components/layout/DashboardShell";
 import PropertyCard from "@/components/dashboard/PropertyCard";
-import { getAnalytics, type HostProperty, type HostPropertyStatus } from "@/lib/api/analytics";
+import { getHostProperties, type HostProperty, type HostPropertyStatus } from "@/lib/api/analytics";
 
 export default function HostPropertiesPage() {
   const [properties, setProperties] = useState<HostProperty[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAnalytics()
-      .then((data) => setProperties(data.hostProperties))
+    getHostProperties()
+      .then(setProperties)
       .catch((err) => console.error("Failed to load host properties", err))
       .finally(() => setIsLoading(false));
   }, []);

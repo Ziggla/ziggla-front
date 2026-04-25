@@ -34,7 +34,7 @@ export default function UserDashboardPage() {
       <main className="flex-1 bg-background">
         {/* Top Header */}
         <header className="sticky top-4 z-40 pointer-events-none">
-          <div className="bg-[#030e20]/80 backdrop-blur-xl rounded-full mx-8 px-8 py-3 flex justify-between items-center shadow-2xl pointer-events-auto">
+          <div className="bg-surface-container-lowest/80 backdrop-blur-xl rounded-full mx-8 px-8 py-3 flex justify-between items-center shadow-2xl pointer-events-auto">
             <h1 className="font-headline text-xl text-on-surface italic pl-10">{t("myJourneys")}</h1>
             <div className="flex items-center gap-6">
               <div className="hidden md:flex gap-8">
@@ -175,13 +175,13 @@ export default function UserDashboardPage() {
                     key={b.id}
                     className="bg-surface-container-low/50 rounded-lg p-6 flex items-center gap-8 opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0 relative">
+                    <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative">
                       <Image
                         loading="eager"
                         src={b.property.coverImage}
                         alt={b.property.name}
                         fill
-                        className="object-cover grayscale-[50%]"
+                        className="object-cover grayscale-50"
                         sizes="96px"
                       />
                     </div>

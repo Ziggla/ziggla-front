@@ -1,8 +1,7 @@
-import rawBookings from "@/data/mock/bookings.json";
-import { mockFetch } from "./client";
+import { apiFetch } from "./client";
 
 // ---------------------------------------------------------------------------
-// Types
+// Types (frontend-facing — camelCase)
 // ---------------------------------------------------------------------------
 
 export type BookingStatus =
@@ -46,8 +45,8 @@ export interface Booking {
   id: string;
   reference: string;
   property: EmbeddedProperty;
-  guest: EmbeddedUser;
-  host: EmbeddedUser;
+  guest?: EmbeddedUser;
+  host?: EmbeddedUser;
   checkIn: string;
   checkOut: string;
   nights: number;
@@ -80,10 +79,109 @@ export interface BookingListItem {
 }
 
 // ---------------------------------------------------------------------------
+// Raw API shapes (snake_case as returned by NestJS)
+// ---------------------------------------------------------------------------
+
+interface RawImage { url: string; is_cover?: boolean; alt?: string | null }
+interface RawRule { label: string }
+interface RawAmenity { label: string }
+
+interface RawProperty {
+  id: string;
+  slug: string;
+  name: string;
+  neighborhood?: string | null;
+  type?: string | null;
+  price_per_night?: string | number | null;
+  images?: RawImage[];
+  rules?: RawRule[];
+  amenities?: RawAmenity[];
+}
+
+interface RawEmbeddedUser {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface RawBooking {
+  id: string;
+  reference: string;
+  status: BookingStatus;
+  check_in: string;
+  check_out: string;
+  nights: number;
+  guests_count: number;
+  price_per_night: string | number;
+  subtotal: string | number;
+  service_fee: string | number;
+  total: string | number;
+  created_at: string;
+  property?: RawProperty;
+  user?: RawEmbeddedUser;
+  review?: { id: string } | null;
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-const bookings = rawBookings as Booking[];
+const PLACEHOLDER_IMAGE = "/images/bridge.png";
+
+function num(v: string | number | undefined | null, d = 0): number {
+  if (v === undefined || v === null) return d;
+  return typeof v === "number" ? v : Number(v);
+}
+
+function initialsOf(first?: string, last?: string): string {
+  return ((first?.[0] ?? "?") + (last?.[0] ?? "?")).toUpperCase();
+}
+
+function coverFrom(images?: RawImage[]): string {
+  if (!images || images.length === 0) return PLACEHOLDER_IMAGE;
+  return images.find((i) => i.is_cover)?.url ?? images[0].url;
+}
+
+function mapEmbeddedUser(u?: RawEmbeddedUser): EmbeddedUser | undefined {
+  if (!u) return undefined;
+  return {
+    id: u.id,
+    firstName: u.first_name,
+    lastName: u.last_name,
+    email: u.email,
+    initials: initialsOf(u.first_name, u.last_name),
+  };
+}
+
+function mapBooking(raw: RawBooking): Booking {
+  const property = raw.property;
+  return {
+    id: raw.id,
+    reference: raw.reference,
+    property: {
+      id: property?.id ?? "",
+      slug: property?.slug ?? "",
+      name: property?.name ?? "—",
+      neighborhood: property?.neighborhood ?? "",
+      type: property?.type ?? "",
+      pricePerNight: num(property?.price_per_night ?? raw.price_per_night),
+      coverImage: coverFrom(property?.images),
+    },
+    guest: mapEmbeddedUser(raw.user),
+    checkIn: raw.check_in,
+    checkOut: raw.check_out,
+    nights: raw.nights,
+    guestsCount: raw.guests_count,
+    subtotal: num(raw.subtotal),
+    serviceFee: num(raw.service_fee),
+    total: num(raw.total),
+    status: raw.status,
+    hasReview: !!raw.review,
+    createdAt: raw.created_at,
+    houseRules: property?.rules?.map((r) => ({ icon: "rule", label: r.label })),
+  };
+}
 
 export function toBookingListItem(b: Booking): BookingListItem {
   return {
@@ -105,30 +203,40 @@ export function toBookingListItem(b: Booking): BookingListItem {
 }
 
 // ---------------------------------------------------------------------------
-// API functions
+// API functions — connected to NestJS backend
 // ---------------------------------------------------------------------------
 
-/** Returns all bookings, optionally filtered to a specific guest. */
-export async function getBookings(userId?: string): Promise<Booking[]> {
-  const data = userId
-    ? bookings.filter((b) => b.guest.id === userId)
-    : bookings;
-  return mockFetch(data, `/bookings${userId ? `?guestId=${userId}` : ""}`);
+/** Current user's bookings (auth required). The userId arg is ignored — the API derives it from the JWT. */
+export async function getBookings(_userId?: string): Promise<Booking[]> {
+  const raw = await apiFetch<RawBooking[]>("/bookings/me");
+  return raw.map(mapBooking);
 }
 
-/** Returns a single booking by id, or null if not found. */
+/** Current user's booking detail. Returns null on 404. */
 export async function getBooking(id: string): Promise<Booking | null> {
-  const data = bookings.find((b) => b.id === id) ?? null;
-  return mockFetch(data, `/bookings/${id}`);
+  try {
+    const raw = await apiFetch<RawBooking>(`/bookings/me/${id}`);
+    return mapBooking(raw);
+  } catch (err) {
+    if (err instanceof Error && err.message.includes(" 404")) return null;
+    throw err;
+  }
 }
 
-/** Returns all bookings managed by a specific host. */
-export async function getBookingsByHost(hostId: string): Promise<Booking[]> {
-  const data = bookings.filter((b) => b.host.id === hostId);
-  return mockFetch(data, `/bookings?hostId=${hostId}`);
+/** Cancel current user's booking (>48h before check-in). */
+export async function cancelMyBooking(id: string): Promise<Booking> {
+  const raw = await apiFetch<RawBooking>(`/bookings/me/${id}`, { method: "DELETE" });
+  return mapBooking(raw);
 }
 
-/** Returns all bookings (admin view). */
+/** Bookings on properties owned by the current host (auth + role: host). */
+export async function getBookingsByHost(_hostId?: string): Promise<Booking[]> {
+  const raw = await apiFetch<RawBooking[]>("/bookings/host");
+  return raw.map(mapBooking);
+}
+
+/** All bookings, admin view. */
 export async function getAdminBookings(): Promise<Booking[]> {
-  return mockFetch(bookings, `/admin/bookings`);
+  const raw = await apiFetch<RawBooking[]>("/bookings");
+  return raw.map(mapBooking);
 }

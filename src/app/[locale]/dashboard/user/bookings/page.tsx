@@ -3,16 +3,12 @@
 import { useState, useEffect } from "react";
 import DashboardShell from "@/components/layout/DashboardShell";
 import StayCard, { type Stay, type BookingStatus } from "@/components/dashboard/StayCard";
-import { getBookings, toBookingListItem } from "@/lib/api/bookings";
+import { getBookings, toBookingListItem, cancelMyBooking } from "@/lib/api/bookings";
+import { useTranslations } from "next-intl";
 
 type FilterTab = "all" | "upcoming" | "past" | "cancelled";
 
-const TABS: { key: FilterTab; label: string }[] = [
-  { key: "all",       label: "All Stays" },
-  { key: "upcoming",  label: "Upcoming" },
-  { key: "past",      label: "Past" },
-  { key: "cancelled", label: "Cancelled" },
-];
+const TAB_KEYS: FilterTab[] = ["all", "upcoming", "past", "cancelled"];
 
 const UPCOMING_STATUSES: BookingStatus[] = ["confirmed", "pending", "checked_in"];
 const PAST_STATUSES: BookingStatus[] = ["completed"];
@@ -28,6 +24,7 @@ export default function UserBookingsPage() {
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
   const [stays, setStays] = useState<Stay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations("dashboard.bookings");
 
   useEffect(() => {
     getBookings("usr-001")
@@ -64,9 +61,14 @@ export default function UserBookingsPage() {
   const upcomingCount = stays.filter((s) => UPCOMING_STATUSES.includes(s.status)).length;
 
   function handleCancel(id: string) {
+    const previous = stays;
     setStays((prev) =>
       prev.map((s) => (s.id === id ? { ...s, status: "cancelled" as BookingStatus } : s))
     );
+    cancelMyBooking(id).catch((err) => {
+      console.error("Failed to cancel booking", err);
+      setStays(previous);
+    });
   }
 
   return (
@@ -74,10 +76,10 @@ export default function UserBookingsPage() {
       <main className="flex-1 bg-background">
         {/* Header */}
         <header className="sticky top-4 z-40 pointer-events-none">
-          <div className="bg-[#030e20]/80 backdrop-blur-xl rounded-full mx-8 px-8 py-3 flex justify-between items-center shadow-2xl pointer-events-auto">
-            <h1 className="font-headline text-xl text-on-surface italic pl-10">My Stays</h1>
+          <div className="bg-surface-container-lowest/80 backdrop-blur-xl rounded-full mx-8 px-8 py-3 flex justify-between items-center shadow-2xl pointer-events-auto">
+            <h1 className="font-headline text-xl text-on-surface italic pl-10">{t("title")}</h1>
             <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">
-              {stays.length} bookings
+              {t("countLabel", { count: stays.length })}
             </span>
           </div>
         </header>
@@ -93,7 +95,7 @@ export default function UserBookingsPage() {
               >
                 luggage
               </span>
-              <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">Total Stays</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">{t("totalStays")}</p>
               <p className="text-4xl font-headline text-on-surface">{stays.length}</p>
             </div>
             <div
@@ -106,7 +108,7 @@ export default function UserBookingsPage() {
               >
                 event_available
               </span>
-              <p className="text-xs uppercase tracking-[0.2em] text-primary mb-4">Upcoming</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary mb-4">{t("upcoming")}</p>
               <p className="text-4xl font-headline text-on-surface">{upcomingCount}</p>
             </div>
             <div className="bg-surface-container-low p-8 rounded-xl relative group overflow-hidden">
@@ -116,7 +118,7 @@ export default function UserBookingsPage() {
               >
                 account_balance_wallet
               </span>
-              <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">Total Spent</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">{t("totalSpent")}</p>
               <p className="text-4xl font-headline text-primary">
                 £{totalSpent.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
               </p>
@@ -125,23 +127,23 @@ export default function UserBookingsPage() {
 
           {/* Filter Tabs */}
           <div className="flex items-center gap-2 mb-8 overflow-x-auto" style={{ WebkitOverflowScrolling: "touch" }}>
-            {TABS.map((tab) => {
+            {TAB_KEYS.map((tabKey) => {
               const count =
-                tab.key === "all" ? stays.length : filterStays(stays, tab.key).length;
+                tabKey === "all" ? stays.length : filterStays(stays, tabKey).length;
               return (
                 <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`flex-shrink-0 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all flex items-center gap-2 ${
-                    activeTab === tab.key
+                  key={tabKey}
+                  onClick={() => setActiveTab(tabKey)}
+                  className={`shrink-0 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all flex items-center gap-2 ${
+                    activeTab === tabKey
                       ? "bg-primary text-on-primary"
                       : "bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
                   }`}
                 >
-                  {tab.label}
+                  {t(`tabs.${tabKey}`)}
                   <span
                     className={`text-[9px] px-5 py-0.5 rounded-full font-bold ${
-                      activeTab === tab.key
+                      activeTab === tabKey
                         ? "bg-on-primary/20 text-on-primary"
                         : "bg-surface-container-high text-on-surface-variant"
                     }`}
@@ -155,7 +157,7 @@ export default function UserBookingsPage() {
 
           {/* Booking List */}
           {isLoading ? (
-            <p className="text-sm text-on-surface-variant py-12 text-center">Loading...</p>
+            <p className="text-sm text-on-surface-variant py-12 text-center">{t("loading")}</p>
           ) : visible.length > 0 ? (
             <div className="space-y-5">
               {visible.map((stay) => (
@@ -169,16 +171,8 @@ export default function UserBookingsPage() {
                   luggage
                 </span>
               </div>
-              <p className="font-headline text-xl text-on-surface mb-2">No stays here</p>
-              <p className="text-sm text-on-surface-variant">
-                {activeTab === "upcoming"
-                  ? "You have no upcoming bookings."
-                  : activeTab === "past"
-                  ? "You have no completed stays yet."
-                  : activeTab === "cancelled"
-                  ? "No cancelled bookings."
-                  : "You haven't made any bookings yet."}
-              </p>
+              <p className="font-headline text-xl text-on-surface mb-2">{t("empty.title")}</p>
+              <p className="text-sm text-on-surface-variant">{t(`empty.${activeTab}`)}</p>
             </div>
           )}
         </div>

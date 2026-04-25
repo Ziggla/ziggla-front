@@ -3,7 +3,7 @@ export const BASE_URL =
 
 const STORAGE_KEY = "ziggla_auth";
 
-function getStoredAuth(): Record<string, any> | null {
+function getStoredAuth(): Record<string, string> | null {
   if (typeof window === "undefined") return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -104,5 +104,8 @@ export async function apiFetch<T>(path: string, options?: RequestInit): Promise<
     throw new Error(`[API] ${options?.method ?? "GET"} ${url} failed with ${res.status}: ${body}`);
   }
 
-  return res.json() as Promise<T>;
+  // Backend wraps responses in { data, timestamp, path } via TransformInterceptor.
+  // Unwrap automatically so callers receive the payload directly.
+  const json = await res.json();
+  return (json && typeof json === "object" && "data" in json ? json.data : json) as T;
 }

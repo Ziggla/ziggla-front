@@ -349,6 +349,43 @@
       "adminName": "John Doe",
       "masterAdmin": "Super Administrateur"
     },
+    "bookings": {
+      "title": "Mes Séjours",
+      "countLabel": "{count} réservations",
+      "totalStays": "Séjours totaux",
+      "upcoming": "À venir",
+      "totalSpent": "Total dépensé",
+      "loading": "Chargement...",
+      "tabs": {
+        "all": "Tous les séjours",
+        "upcoming": "À venir",
+        "past": "Passés",
+        "cancelled": "Annulés"
+      },
+      "empty": {
+        "title": "Aucun séjour ici",
+        "upcoming": "Vous n'avez aucune réservation à venir.",
+        "past": "Vous n'avez encore aucun séjour terminé.",
+        "cancelled": "Aucune réservation annulée.",
+        "all": "Vous n'avez pas encore fait de réservation."
+      },
+      "card": {
+        "ref": "Réf :",
+        "nights": "{count} nuits",
+        "guests": "{count} voyageurs",
+        "viewDetails": "Voir les détails",
+        "leaveReview": "Laisser un avis",
+        "reviewed": "Avis publié",
+        "cancel": "Annuler",
+        "status": {
+          "confirmed": "Confirmée",
+          "completed": "Terminée",
+          "cancelled": "Annulée",
+          "pending": "En attente",
+          "checked_in": "Arrivée enregistrée"
+        }
+      }
+    },
     "user": {
       "myJourneys": "Mes Voyages",
       "bookingsTab": "Réservations",

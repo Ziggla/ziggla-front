@@ -38,7 +38,7 @@ export default function PropertyCard({
           sizes="(max-width: 768px) 100vw, 50vw"
         />
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
 
         {/* Rating badge */}
         <div className="absolute top-4 left-4 bg-background/80 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
@@ -74,7 +74,7 @@ export default function PropertyCard({
           <h3 className="font-headline text-xl font-light text-primary leading-tight">
             {property.name}
           </h3>
-          <div className="flex-shrink-0 text-right">
+          <div className="shrink-0 text-right">
             <div className="text-on-surface font-label font-semibold text-lg">
               £{property.pricePerNight}
             </div>

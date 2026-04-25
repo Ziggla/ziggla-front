@@ -23,7 +23,7 @@ export default function UserAvatar({
 
   return (
     <div
-      className={`rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center bg-primary/20 border border-primary/40 ${className}`}
+      className={`rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-primary/20 border border-primary/40 ${className}`}
       style={style}
     >
       {showImage ? (

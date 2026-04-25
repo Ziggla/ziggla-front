@@ -37,7 +37,7 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
       }
     >
       {/* Cover image */}
-      <div className="relative flex-shrink-0 overflow-hidden" style={{ width: "280px", minHeight: "220px" }}>
+      <div className="relative shrink-0 overflow-hidden" style={{ width: "280px", minHeight: "220px" }}>
         <Image
           src={property.coverImage}
           alt={property.name}
@@ -46,7 +46,7 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
           className="object-cover group-hover:scale-105 transition-transform duration-700"
           sizes="280px"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container-low/30" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent to-surface-container-low/30" />
 
         {/* Status badge */}
         <div className="absolute top-3 left-3">
@@ -54,7 +54,7 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
             onClick={() => setStatusDropOpen((p) => !p)}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${status.bg} ${status.text} backdrop-blur-sm`}
           >
-            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: status.dot }} />
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: status.dot }} />
             {status.label}
             <span className="material-symbols-outlined text-xs ml-0.5">expand_more</span>
           </button>
@@ -69,7 +69,7 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
                   onClick={() => { onStatusChange(property.id, s); setStatusDropOpen(false); }}
                   className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-surface-container-high transition-colors ${STATUS_CONFIG[s].text}`}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: STATUS_CONFIG[s].dot }} />
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: STATUS_CONFIG[s].dot }} />
                   {STATUS_CONFIG[s].label}
                 </button>
               ))}
@@ -91,7 +91,7 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
           </div>
 
           {/* Kebab menu */}
-          <div className="relative flex-shrink-0">
+          <div className="relative shrink-0">
             <button
               onClick={() => setMenuOpen((p) => !p)}
               className="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"

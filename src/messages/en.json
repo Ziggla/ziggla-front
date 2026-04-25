@@ -349,6 +349,43 @@
       "adminName": "John Doe",
       "masterAdmin": "Master Admin"
     },
+    "bookings": {
+      "title": "My Stays",
+      "countLabel": "{count} bookings",
+      "totalStays": "Total Stays",
+      "upcoming": "Upcoming",
+      "totalSpent": "Total Spent",
+      "loading": "Loading...",
+      "tabs": {
+        "all": "All Stays",
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "cancelled": "Cancelled"
+      },
+      "empty": {
+        "title": "No stays here",
+        "upcoming": "You have no upcoming bookings.",
+        "past": "You have no completed stays yet.",
+        "cancelled": "No cancelled bookings.",
+        "all": "You haven't made any bookings yet."
+      },
+      "card": {
+        "ref": "Ref:",
+        "nights": "{count} nights",
+        "guests": "{count} guests",
+        "viewDetails": "View Details",
+        "leaveReview": "Leave a Review",
+        "reviewed": "Reviewed",
+        "cancel": "Cancel",
+        "status": {
+          "confirmed": "Confirmed",
+          "completed": "Completed",
+          "cancelled": "Cancelled",
+          "pending": "Pending",
+          "checked_in": "Checked in"
+        }
+      }
+    },
     "user": {
       "myJourneys": "My Journeys",
       "bookingsTab": "Bookings",

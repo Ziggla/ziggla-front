@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import DashboardShell from "@/components/layout/DashboardShell";
-import { getBooking, type Booking } from "@/lib/api/bookings";
+import { getBooking, cancelMyBooking, type Booking } from "@/lib/api/bookings";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -172,7 +172,7 @@ export default function BookingDetailPage() {
                     <div className="grid grid-cols-2 gap-4">
                       {booking.houseRules.map((rule, idx) => (
                         <div key={idx} className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-surface-container-high rounded-lg flex items-center justify-center flex-shrink-0">
+                          <div className="w-8 h-8 bg-surface-container-high rounded-lg flex items-center justify-center shrink-0">
                             <span className="material-symbols-outlined text-primary text-base">{rule.icon}</span>
                           </div>
                           <span className="text-sm text-on-surface">{rule.label}</span>
@@ -184,7 +184,7 @@ export default function BookingDetailPage() {
 
                 {/* Help Card */}
                 <div className="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-primary text-base">support_agent</span>
                   </div>
                   <div className="flex-1">
@@ -195,7 +195,14 @@ export default function BookingDetailPage() {
                         {t("contactHost")}
                       </button>
                       {(booking.status === "confirmed" || booking.status === "pending") && (
-                        <button className="bg-surface-container-high text-error px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-surface-container-highest transition-colors">
+                        <button
+                          onClick={() => {
+                            cancelMyBooking(booking.id)
+                              .then((updated) => setBooking(updated))
+                              .catch((err) => console.error("Failed to cancel booking", err));
+                          }}
+                          className="bg-surface-container-high text-error px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-surface-container-highest transition-colors"
+                        >
                           {t("cancelBooking")}
                         </button>
                       )}
@@ -226,7 +233,7 @@ export default function BookingDetailPage() {
                         maskSize: "100% 100%",
                       }}
                     />
-                    <div className="absolute inset-0 z-20 flex items-end bg-gradient-to-t from-surface-container-low/95 via-surface-container-low/45 to-transparent">
+                    <div className="absolute inset-0 z-20 flex items-end bg-linear-to-t from-surface-container-low/95 via-surface-container-low/45 to-transparent">
                       <div className="px-6 pb-4">
                         <p className="text-[10px] font-bold tracking-widest text-primary uppercase">Summary</p>
                         <h4 className="text-xl font-headline font-bold text-on-surface">Booking Details</h4>

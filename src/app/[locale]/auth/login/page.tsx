@@ -153,7 +153,7 @@ export default function LoginPage() {
           {/* Remember me */}
           <label className="flex items-center gap-3 cursor-pointer">
             <div
-              className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center transition-all ${
+              className={`w-5 h-5 rounded shrink-0 flex items-center justify-center transition-all ${
                 rememberMe
                   ? "bg-primary"
                   : "bg-surface-container-highest hover:bg-surface-container-highest/80"
@@ -185,11 +185,11 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="relative flex items-center py-2">
-            <div className="flex-grow h-px bg-surface-variant" />
-            <span className="flex-shrink mx-4 text-xs font-label text-outline-variant uppercase tracking-widest">
+            <div className="grow h-px bg-surface-variant" />
+            <span className="shrink mx-4 text-xs font-label text-outline-variant uppercase tracking-widest">
               {t("orContinueWith")}
             </span>
-            <div className="flex-grow h-px bg-surface-variant" />
+            <div className="grow h-px bg-surface-variant" />
           </div>
 
           {/* Google */}

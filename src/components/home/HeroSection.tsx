@@ -42,15 +42,15 @@ export default function HeroSection() {
         className="absolute inset-0 overflow-hidden pointer-events-none opacity-10"
       >
         <div
-          className="absolute w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent"
+          className="absolute w-full h-px bg-linear-to-r from-transparent via-primary to-transparent"
           style={{ top: "35%", transform: "rotate(-8deg) scaleX(1.5)" }}
         />
         <div
-          className="absolute w-full h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"
+          className="absolute w-full h-px bg-linear-to-r from-transparent via-primary/60 to-transparent"
           style={{ top: "50%", transform: "rotate(-8deg) scaleX(1.5)" }}
         />
         <div
-          className="absolute w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+          className="absolute w-full h-px bg-linear-to-r from-transparent via-primary/30 to-transparent"
           style={{ top: "65%", transform: "rotate(-8deg) scaleX(1.5)" }}
         />
       </div>

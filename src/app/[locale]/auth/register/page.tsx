@@ -219,7 +219,7 @@ export default function RegisterPage() {
           <div className="space-y-3 pt-2">
             <label className="flex items-start gap-3 cursor-pointer group">
               <div
-                className={`w-5 h-5 rounded flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+                className={`w-5 h-5 rounded shrink-0 mt-0.5 flex items-center justify-center transition-all ${
                   adultsOnly
                     ? "bg-primary"
                     : "bg-surface-container-highest group-hover:bg-surface-container-highest/80"
@@ -236,7 +236,7 @@ export default function RegisterPage() {
             </label>
             <label className="flex items-start gap-3 cursor-pointer group">
               <div
-                className={`w-5 h-5 rounded flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+                className={`w-5 h-5 rounded shrink-0 mt-0.5 flex items-center justify-center transition-all ${
                   agreeTerms
                     ? "bg-primary"
                     : "bg-surface-container-highest group-hover:bg-surface-container-highest/80"
@@ -282,11 +282,11 @@ export default function RegisterPage() {
 
           {/* Divider */}
           <div className="relative flex items-center py-2">
-            <div className="flex-grow h-px bg-surface-variant" />
-            <span className="flex-shrink mx-4 text-xs font-label text-outline-variant uppercase tracking-widest">
+            <div className="grow h-px bg-surface-variant" />
+            <span className="shrink mx-4 text-xs font-label text-outline-variant uppercase tracking-widest">
               {t("orContinueWith")}
             </span>
-            <div className="flex-grow h-px bg-surface-variant" />
+            <div className="grow h-px bg-surface-variant" />
           </div>
 
           {/* Google */}

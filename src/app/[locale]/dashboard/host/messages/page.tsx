@@ -105,9 +105,9 @@ export default function HostMessagesPage() {
       <main className="flex-1 flex flex-col overflow-hidden h-screen">
         <div className="flex flex-1 overflow-hidden">
           {/* Conversation List */}
-          <aside className="w-80 bg-surface-container-low flex flex-col border-r border-surface-container-high flex-shrink-0">
+          <aside className="w-80 bg-surface-container-low flex flex-col border-r border-surface-container-high shrink-0">
             {/* Header */}
-            <div className="p-6 flex-shrink-0">
+            <div className="p-6 shrink-0">
               <h1 className="text-xl font-headline text-on-surface mb-1">{t("title")}</h1>
               <p className="text-xs text-on-surface-variant uppercase tracking-widest font-label">
                 {t("subtitle")}
@@ -115,7 +115,7 @@ export default function HostMessagesPage() {
             </div>
 
             {/* Search */}
-            <div className="px-4 pb-4 flex-shrink-0">
+            <div className="px-4 pb-4 shrink-0">
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/40 text-base">
                   search
@@ -143,13 +143,13 @@ export default function HostMessagesPage() {
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">
                       {conv.initials}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-baseline mb-0.5">
                         <span className="text-sm font-bold text-on-surface truncate">{conv.name}</span>
-                        <span className="text-[10px] text-on-surface-variant/60 flex-shrink-0 ml-2">{conv.time}</span>
+                        <span className="text-[10px] text-on-surface-variant/60 shrink-0 ml-2">{conv.time}</span>
                       </div>
                       <p className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">
                         {conv.property}
@@ -157,7 +157,7 @@ export default function HostMessagesPage() {
                       <div className="flex items-center justify-between">
                         <p className="text-xs text-on-surface-variant truncate">{conv.lastMessage}</p>
                         {conv.unread > 0 && (
-                          <span className="w-4 h-4 rounded-full bg-primary text-on-primary text-[9px] font-bold flex items-center justify-center flex-shrink-0 ml-2">
+                          <span className="w-4 h-4 rounded-full bg-primary text-on-primary text-[9px] font-bold flex items-center justify-center shrink-0 ml-2">
                             {conv.unread}
                           </span>
                         )}
@@ -172,7 +172,7 @@ export default function HostMessagesPage() {
           {/* Chat Window */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Chat Header */}
-            <div className="bg-surface-container-low px-6 py-4 flex items-center gap-4 flex-shrink-0">
+            <div className="bg-surface-container-low px-6 py-4 flex items-center gap-4 shrink-0">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
                 {activeConv?.initials}
               </div>
@@ -200,7 +200,7 @@ export default function HostMessagesPage() {
                   className={`flex ${msg.from === "host" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.from === "guest" && (
-                    <div className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface flex-shrink-0 mr-3 mt-auto">
+                    <div className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface shrink-0 mr-3 mt-auto">
                       {activeConv?.initials}
                     </div>
                   )}
@@ -219,7 +219,7 @@ export default function HostMessagesPage() {
             </div>
 
             {/* Input Bar */}
-            <div className="bg-surface-container-low px-6 py-4 flex-shrink-0">
+            <div className="bg-surface-container-low px-6 py-4 shrink-0">
               <div className="flex items-center gap-3 bg-surface-container-high rounded-xl px-4 py-2">
                 <input
                   className="flex-1 bg-transparent border-none outline-none text-sm text-on-surface placeholder:text-on-surface-variant/40"
@@ -236,7 +236,7 @@ export default function HostMessagesPage() {
                 <button
                   onClick={handleSend}
                   disabled={!newMessage.trim()}
-                  className="w-8 h-8 gold-gradient rounded-full flex items-center justify-center flex-shrink-0 transition-opacity disabled:opacity-40"
+                  className="w-8 h-8 gold-gradient rounded-full flex items-center justify-center shrink-0 transition-opacity disabled:opacity-40"
                 >
                   <span className="material-symbols-outlined text-on-primary text-base">send</span>
                 </button>
