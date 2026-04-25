@@ -61,21 +61,6 @@ export default function LocationSection() {
               ))}
             </div>
 
-            <motion.a
-              href="https://maps.google.com/?q=800+Fulham+Road,+London+SW6+5SL"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
-              className="inline-flex items-center gap-2 mt-8 text-primary text-xs font-label font-semibold tracking-widest uppercase hover:opacity-80 transition-opacity duration-200"
-            >
-              <span className="material-symbols-outlined text-base">
-                open_in_new
-              </span>
-              {t("openMaps")}
-            </motion.a>
           </motion.div>
 
           {/* Right: Map placeholder */}
@@ -84,18 +69,32 @@ export default function LocationSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative rounded-xl overflow-hidden aspect-square lg:aspect-auto lg:h-[500px] bg-surface-container-high"
+            className="relative rounded-xl overflow-hidden aspect-square lg:aspect-auto lg:h-180 bg-surface-container-high"
           >
             {/* Map placeholder with stylized content */}
+            <Image
+              src="/images/putney.png"
+              alt="Map placeholder"
+              width={1200}
+              height={800}
+              className="w-full h-full object-cover rounded-lg filter opacity-80"
+            />
+            <motion.a
+              href="https://maps.google.com/?q=800+Fulham+Road,+London+SW6+5SL"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="absolute inset-0 flex items-center justify-center text-primary transition-opacity duration-200"
+            >
+              <span className="material-symbols-outlined h-5 text-64 text-yellow-400 drop-shadow-lg text-base">
+                location_on
+              </span>
+            </motion.a>
           </motion.div>
         </div>
-              <Image
-                src="/images/bridge.png"
-                alt="Map placeholder"
-                width={1200}
-                height={800}
-                className="w-full h-full object-cover rounded-lg filter grayscale opacity-80"
-              />
       </div>
     </section>
   );

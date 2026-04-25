@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Property } from "@/data/properties";
 import { useRouter } from "@/i18n/navigation";
+import Price from "@/components/Price";
 
 interface BookingFormProps {
   property: Property;
@@ -41,9 +42,10 @@ export default function BookingForm({ property }: BookingFormProps) {
       <div className="flex items-end gap-2 justify-between">
         <div>
           <div className="flex items-baseline gap-1">
-            <span className="font-label font-bold text-on-surface text-2xl">
-              £{property.pricePerNight}
-            </span>
+            <Price
+              amount={property.pricePerNight}
+              className="font-label font-bold text-on-surface text-2xl"
+            />
             <span className="text-on-surface-variant text-sm">
               {t("perNight")}
             </span>
@@ -126,18 +128,19 @@ export default function BookingForm({ property }: BookingFormProps) {
       {nights > 0 && (
         <div className="space-y-3 pt-3 border-t border-outline-variant/20">
           <div className="flex justify-between text-sm">
-            <span className="text-on-surface-variant font-body">
-              £{property.pricePerNight} × {nights} nights
+            <span className="text-on-surface-variant font-body flex items-center gap-1">
+              <Price amount={property.pricePerNight} /> × {nights} nights
             </span>
-            <span className="text-on-surface font-label">£{subtotal}</span>
+            <Price amount={subtotal} className="text-on-surface font-label" />
           </div>
           <div className="flex justify-between pt-3 border-t border-outline-variant/20">
             <span className="text-on-surface font-label font-semibold text-sm">
               {t("total")}
             </span>
-            <span className="text-primary font-label font-bold text-lg">
-              £{total}
-            </span>
+            <Price
+              amount={total}
+              className="text-primary font-label font-bold text-lg"
+            />
           </div>
         </div>
       )}

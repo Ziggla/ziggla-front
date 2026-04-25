@@ -57,14 +57,25 @@ export default function SumupCardWidget({ checkoutId, locale, onSuccess, onError
           locale: locale ?? "en-GB",
           showFooter: false,
           onResponse: (type, body) => {
-            if (type === "success" || type === "sent" || type === "auth-screen") {
-              const status = (body as { status?: string })?.status;
-              if (status === "PAID" || status === "SUCCESSFUL" || type === "success") {
-                onSuccess();
-              }
-            } else if (type === "error" || type === "invalid") {
+            // Only treat as paid when SumUp explicitly reports a successful
+            // status. "sent"/"auth-screen" mean the form was submitted but the
+            // bank may still reject it, so we wait for a confirmed status.
+            const status = (body as { status?: string })?.status?.toUpperCase();
+            if (status === "PAID" || status === "SUCCESSFUL") {
+              onSuccess();
+              return;
+            }
+            if (
+              type === "error" ||
+              type === "invalid" ||
+              status === "FAILED" ||
+              status === "CANCELLED" ||
+              status === "CANCELED" ||
+              status === "DECLINED"
+            ) {
               onError(
-                (body as { message?: string })?.message ?? "Payment failed",
+                (body as { message?: string })?.message ??
+                  "Payment was declined or cancelled.",
               );
             }
           },

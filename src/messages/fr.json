@@ -163,6 +163,8 @@
     "errorInvalidDates": "Le check-out doit être après le check-in.",
     "proceedToPayment": "Procéder au paiement",
     "paymentWillAppear": "Le formulaire de carte sécurisé apparaîtra ici après confirmation de vos informations.",
+    "chargedInEur": "Débité en EUR",
+    "cancelPayment": "Annuler et recommencer",
     "bookingSummary": "Récapitulatif",
     "nights": "nuits",
     "cleaningService": "Service de nettoyage",

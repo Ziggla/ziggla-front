@@ -6,8 +6,13 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams, useParams } from "next/navigation";
 import { getPropertyBySlug } from "@/lib/api/properties";
-import { createBooking, createSumupCheckout } from "@/lib/api/bookings";
+import {
+  createBooking,
+  createSumupCheckout,
+  cancelMyBooking,
+} from "@/lib/api/bookings";
 import SumupCardWidget from "@/components/booking/SumupCardWidget";
+import Price from "@/components/Price";
 
 const LIVING_ROOM =
   "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg";
@@ -22,7 +27,7 @@ export default function BookingPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
-  const [checkout, setCheckout] = useState<{ id: string; reference: string } | null>(null);
+  const [checkout, setCheckout] = useState<{ id: string; reference: string; bookingId: string } | null>(null);
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
@@ -64,7 +69,11 @@ export default function BookingPage() {
         special_requests: specialRequests || undefined,
       });
       const co = await createSumupCheckout(booking.id);
-      setCheckout({ id: co.checkout_id, reference: booking.reference });
+      setCheckout({
+        id: co.checkout_id,
+        reference: booking.reference,
+        bookingId: booking.id,
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Booking failed");
     } finally {
@@ -76,7 +85,20 @@ export default function BookingPage() {
     if (checkout) router.push(`/booking/confirmation?ref=${checkout.reference}`);
   }, [checkout, router]);
 
-  const handlePaymentError = useCallback((msg: string) => setError(msg), []);
+  const handlePaymentError = useCallback(
+    (msg: string) => {
+      setError(msg);
+      // Clean up the unpaid booking + checkout so the user can retry without
+      // collisions on the same dates.
+      if (checkout) {
+        cancelMyBooking(checkout.bookingId).catch(() => {
+          /* swallow — server will also expire it after 30 min */
+        });
+      }
+      setCheckout(null);
+    },
+    [checkout],
+  );
 
   return (
     <main className="max-w-7xl mx-auto px-6 pt-18 pb-24">
@@ -242,12 +264,21 @@ export default function BookingPage() {
               </div>
               <div className="bg-white rounded-lg p-6 min-h-50">
                 {checkout ? (
-                  <SumupCardWidget
-                    checkoutId={checkout.id}
-                    locale={locale === "fr" ? "fr-FR" : "en-GB"}
-                    onSuccess={handlePaid}
-                    onError={handlePaymentError}
-                  />
+                  <>
+                    <SumupCardWidget
+                      checkoutId={checkout.id}
+                      locale={locale === "fr" ? "fr-FR" : "en-GB"}
+                      onSuccess={handlePaid}
+                      onError={handlePaymentError}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handlePaymentError("")}
+                      className="mt-4 text-slate-500 text-xs hover:text-slate-700 underline"
+                    >
+                      {t("cancelPayment")}
+                    </button>
+                  </>
                 ) : (
                   <p className="text-slate-500 text-sm text-center py-12">
                     {t("paymentWillAppear")}
@@ -316,8 +347,10 @@ export default function BookingPage() {
             <div className="space-y-4 mb-8">
               {nights > 0 && (
                 <div className="flex justify-between text-on-surface-variant font-body">
-                  <span>£{pricePerNight} x {nights} {t("nights")}</span>
-                  <span className="text-on-surface">£{total.toLocaleString()}</span>
+                  <span className="flex items-center gap-1">
+                    <Price amount={pricePerNight} /> x {nights} {t("nights")}
+                  </span>
+                  <Price amount={total} className="text-on-surface" />
                 </div>
               )}
             </div>
@@ -327,10 +360,12 @@ export default function BookingPage() {
                   {t("totalAmount")}
                 </span>
                 <span className="text-4xl font-headline text-primary">
-                  {total > 0 ? `£${total.toLocaleString()}` : "—"}
+                  {total > 0 ? <Price amount={total} /> : "—"}
                 </span>
               </div>
-              <span className="text-xs text-on-surface-variant mb-1 italic">GBP</span>
+              <span className="text-xs text-on-surface-variant mb-1 italic">
+                {t("chargedInEur")}
+              </span>
             </div>
             {!checkout && (
               <button

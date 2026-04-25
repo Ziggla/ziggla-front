@@ -101,7 +101,24 @@ export async function apiFetch<T>(path: string, options?: RequestInit): Promise<
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`[API] ${options?.method ?? "GET"} ${url} failed with ${res.status}: ${body}`);
+    let message = body;
+    try {
+      const parsed = JSON.parse(body);
+      message =
+        parsed?.error?.message ??
+        parsed?.message ??
+        parsed?.error ??
+        body;
+    } catch {
+      // body wasn't JSON — keep raw text
+    }
+    if (typeof console !== "undefined") {
+      console.error(
+        `[API] ${options?.method ?? "GET"} ${url} failed with ${res.status}:`,
+        body,
+      );
+    }
+    throw new Error(typeof message === "string" ? message : String(message));
   }
 
   // Backend wraps responses in { data, timestamp, path } via TransformInterceptor.

@@ -26,7 +26,7 @@ export default function BookingConfirmationPage() {
               </span>
             </div>
           </div>
-          <h1 className="font-headline text-5xl md:text-6xl text-on-surface mb-3">
+          <h1 className="font-headline text-5xl md:text-5xl text-on-surface mb-3">
             {t("title")}
           </h1>
           <p className="font-mono text-primary tracking-widest text-sm bg-primary/10 px-4 py-1.5 rounded-full inline-block">

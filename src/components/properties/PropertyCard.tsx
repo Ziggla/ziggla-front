@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Property } from "@/data/properties";
+import Price from "@/components/Price";
 
 interface PropertyCardProps {
   property: Property;
@@ -75,9 +76,10 @@ export default function PropertyCard({
             {property.name}
           </h3>
           <div className="shrink-0 text-right">
-            <div className="text-on-surface font-label font-semibold text-lg">
-              £{property.pricePerNight}
-            </div>
+            <Price
+              amount={property.pricePerNight}
+              className="text-on-surface font-label font-semibold text-lg"
+            />
             <div className="text-on-surface-variant text-xs">{t("perNight")}</div>
           </div>
         </div>
