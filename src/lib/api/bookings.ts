@@ -247,6 +247,31 @@ export async function getBookings(_userId?: string): Promise<Booking[]> {
   return raw.map(mapBooking);
 }
 
+export interface BookingStatusInfo {
+  id: string;
+  reference: string;
+  status: BookingStatus;
+  check_in: string;
+  check_out: string;
+  total: number;
+  currency: string;
+  payment?: { status: string } | null;
+  property: { name: string; slug: string; address: string };
+}
+
+/** Fetch a booking (any status) by its reference — used by confirmation page polling. */
+export async function getBookingByReference(
+  reference: string,
+): Promise<BookingStatusInfo | null> {
+  try {
+    return await apiFetch<BookingStatusInfo>(`/bookings/me/by-ref/${reference}`);
+  } catch (err) {
+    if (err instanceof Error && err.message.toLowerCase().includes("not found"))
+      return null;
+    throw err;
+  }
+}
+
 /** Current user's booking detail. Returns null on 404. */
 export async function getBooking(id: string): Promise<Booking | null> {
   try {

@@ -5,13 +5,15 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import StayCard, { type Stay, type BookingStatus } from "@/components/dashboard/StayCard";
 import { getBookings, toBookingListItem, cancelMyBooking } from "@/lib/api/bookings";
 import { useTranslations } from "next-intl";
+import Price from "@/components/Price";
 
 type FilterTab = "all" | "upcoming" | "past" | "cancelled";
 
 const TAB_KEYS: FilterTab[] = ["all", "upcoming", "past", "cancelled"];
 
-const UPCOMING_STATUSES: BookingStatus[] = ["confirmed", "pending", "checked_in"];
+const UPCOMING_STATUSES: BookingStatus[] = ["confirmed", "checked_in"];
 const PAST_STATUSES: BookingStatus[] = ["completed"];
+const PAID_STATUSES: BookingStatus[] = ["confirmed", "checked_in", "completed"];
 
 function filterStays(stays: Stay[], tab: FilterTab): Stay[] {
   if (tab === "upcoming")  return stays.filter((s) => UPCOMING_STATUSES.includes(s.status));
@@ -41,7 +43,8 @@ export default function UserBookingsPage() {
             checkOut: item.checkOut,
             nights: item.nights,
             guests: item.guestsCount,
-            total: `£${item.total.toFixed(2)}`,
+            total: `${item.total.toFixed(2)}`,
+            totalAmount: item.total,
             status: item.status,
             hasReview: item.hasReview,
           };
@@ -55,8 +58,8 @@ export default function UserBookingsPage() {
   const visible = filterStays(stays, activeTab);
 
   const totalSpent = stays
-    .filter((s) => s.status === "completed")
-    .reduce((acc, s) => acc + parseFloat(s.total.replace("£", "").replace(",", "")), 0);
+    .filter((s) => PAID_STATUSES.includes(s.status))
+    .reduce((acc, s) => acc + s.totalAmount, 0);
 
   const upcomingCount = stays.filter((s) => UPCOMING_STATUSES.includes(s.status)).length;
 
@@ -119,9 +122,11 @@ export default function UserBookingsPage() {
                 account_balance_wallet
               </span>
               <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">{t("totalSpent")}</p>
-              <p className="text-4xl font-headline text-primary">
-                £{totalSpent.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
-              </p>
+              <Price
+                amount={totalSpent}
+                fractionDigits={2}
+                className="text-4xl font-headline text-primary"
+              />
             </div>
           </section>
 

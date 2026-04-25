@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import Price from "@/components/Price";
 
 export type BookingStatus = "confirmed" | "completed" | "cancelled" | "pending" | "checked_in";
 
@@ -17,6 +18,7 @@ export interface Stay {
   nights: number;
   guests: number;
   total: string;
+  totalAmount: number;
   status: BookingStatus;
   hasReview?: boolean;
 }
@@ -77,7 +79,11 @@ export default function StayCard({ stay, onCancel }: StayCardProps) {
               {t("ref")} {stay.reference}
             </p>
           </div>
-          <p className="text-2xl font-headline text-primary shrink-0">{stay.total}</p>
+          <Price
+            amount={stay.totalAmount}
+            fractionDigits={2}
+            className="text-2xl font-headline text-primary shrink-0"
+          />
         </div>
 
         {/* Details row */}

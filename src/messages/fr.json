@@ -190,7 +190,17 @@
     "step3Title": "Arrivée sans accroc",
     "step3Desc": "Le jour de votre arrivée, votre clé numérique s'activera automatiquement dans l'app ZIGGLA à 15h.",
     "viewBooking": "Voir ma réservation",
-    "backHome": "Retour à l'accueil"
+    "backHome": "Retour à l'accueil",
+    "verifyingTitle": "Vérification du paiement…",
+    "verifyingSubtitle": "Patientez pendant que nous confirmons auprès de votre banque.",
+    "pendingTitle": "Le paiement est en cours de traitement",
+    "pendingSubtitle": "Votre banque met plus de temps que d'habitude. Nous vous enverrons un email dès qu'il sera confirmé.",
+    "failedTitle": "Le paiement n'a pas abouti",
+    "failedSubtitle": "Votre carte a été refusée ou vous avez annulé le paiement. Aucun montant n'a été débité.",
+    "notFoundTitle": "Réservation introuvable",
+    "notFoundSubtitle": "Nous n'avons pas trouvé cette référence. Elle a peut-être été annulée ou jamais finalisée.",
+    "confirmedSubtitle": "Votre séjour est sécurisé. Nous vous avons envoyé votre reçu par email.",
+    "tryAgain": "Refaire une réservation"
   },
   "auth": {
     "welcomeBack": "Bon retour",

@@ -7,8 +7,10 @@ import { Link } from "@/i18n/navigation";
 import DashboardShell from "@/components/layout/DashboardShell";
 import { getBookings, type Booking, type BookingStatus } from "@/lib/api/bookings";
 import { useAuth } from "@/lib/auth/AuthContext";
+import Price from "@/components/Price";
 
-const UPCOMING_STATUSES: BookingStatus[] = ["confirmed", "pending", "checked_in"];
+const UPCOMING_STATUSES: BookingStatus[] = ["confirmed", "checked_in"];
+const PAID_STATUSES: BookingStatus[] = ["confirmed", "checked_in", "completed"];
 
 export default function UserDashboardPage() {
   const t = useTranslations("dashboard.user");
@@ -25,7 +27,10 @@ export default function UserDashboardPage() {
 
   const upcomingBookings = bookings.filter((b) => UPCOMING_STATUSES.includes(b.status));
   const pastBookings = bookings.filter((b) => b.status === "completed");
-  const totalSpent = pastBookings.reduce((acc, b) => acc + b.total, 0);
+  // Sum every paid booking — past, current, and upcoming — not just completed stays.
+  const totalSpent = bookings
+    .filter((b) => PAID_STATUSES.includes(b.status))
+    .reduce((acc, b) => acc + b.total, 0);
 
   const nextStay = upcomingBookings[0] ?? null;
 
@@ -85,9 +90,11 @@ export default function UserDashboardPage() {
               <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-4">
                 {t("totalSpent")}
               </p>
-              <p className="text-4xl font-headline text-primary">
-                £{totalSpent.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
-              </p>
+              <Price
+                amount={totalSpent}
+                fractionDigits={2}
+                className="text-4xl font-headline text-primary"
+              />
             </div>
           </section>
 
@@ -117,7 +124,11 @@ export default function UserDashboardPage() {
                   <div>
                     <div className="flex justify-between items-start mb-4">
                       <h3 className="font-headline text-2xl text-on-surface">{nextStay.property.name}</h3>
-                      <p className="text-2xl font-headline text-primary">£{nextStay.total.toFixed(2)}</p>
+                      <Price
+                        amount={nextStay.total}
+                        fractionDigits={2}
+                        className="text-2xl font-headline text-primary"
+                      />
                     </div>
                     <div className="flex flex-wrap gap-8 text-on-surface-variant">
                       <div className="flex items-center gap-2">
@@ -214,7 +225,11 @@ export default function UserDashboardPage() {
                           {t("leaveReview")}
                         </Link>
                       )}
-                      <p className="text-lg font-headline text-on-surface-variant/60">£{b.total.toFixed(2)}</p>
+                      <Price
+                        amount={b.total}
+                        fractionDigits={2}
+                        className="text-lg font-headline text-on-surface-variant/60"
+                      />
                     </div>
                   </div>
                 ))}

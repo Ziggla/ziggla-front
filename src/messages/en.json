@@ -190,7 +190,17 @@
     "step3Title": "Seamless Arrival",
     "step3Desc": "On the day of your arrival, your digital key will activate automatically in the ZIGGLA app at 3:00 PM.",
     "viewBooking": "View my booking",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "verifyingTitle": "Verifying your payment…",
+    "verifyingSubtitle": "Hold on while we confirm with your bank.",
+    "pendingTitle": "Payment is still being processed",
+    "pendingSubtitle": "Your bank is taking longer than usual. We'll email you the moment it's confirmed — no need to refresh.",
+    "failedTitle": "Payment was not completed",
+    "failedSubtitle": "Your card was declined or you cancelled the payment. No charge has been made.",
+    "notFoundTitle": "Booking not found",
+    "notFoundSubtitle": "We couldn't find this reference. It may have been cancelled or never completed.",
+    "confirmedSubtitle": "Your stay is locked in. We've emailed your receipt with all the details.",
+    "tryAgain": "Try booking again"
   },
   "auth": {
     "welcomeBack": "Welcome back",
