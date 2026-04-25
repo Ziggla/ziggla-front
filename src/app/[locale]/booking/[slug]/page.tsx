@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams, useParams } from "next/navigation";
+import { getPropertyBySlug } from "@/lib/api/properties";
+import { createBooking, createSumupCheckout } from "@/lib/api/bookings";
+import SumupCardWidget from "@/components/booking/SumupCardWidget";
 
 const LIVING_ROOM =
   "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg";
@@ -12,7 +15,19 @@ const LIVING_ROOM =
 export default function BookingPage() {
   const t = useTranslations("bookingPage");
   const [agreed, setAgreed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
+  const [checkout, setCheckout] = useState<{ id: string; reference: string } | null>(null);
   const searchParams = useSearchParams();
+  const params = useParams();
+  const router = useRouter();
+  const locale = useLocale();
+  const slug = String(params.slug);
 
   const checkIn = searchParams.get("checkIn") ?? "";
   const checkOut = searchParams.get("checkOut") ?? "";
@@ -21,6 +36,47 @@ export default function BookingPage() {
   const total = Number(searchParams.get("total") ?? 0);
   const pricePerNight = Number(searchParams.get("pricePerNight") ?? 0);
   const propertyName = searchParams.get("propertyName") ?? "";
+
+  async function handleConfirm() {
+    if (!agreed || submitting) return;
+    setError(null);
+    if (!firstName || !lastName || !email || !checkIn || !checkOut) {
+      setError(t("errorMissingFields"));
+      return;
+    }
+    if (new Date(checkOut) <= new Date(checkIn)) {
+      setError(t("errorInvalidDates"));
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const property = await getPropertyBySlug(slug);
+      if (!property) throw new Error("Property not found");
+      const booking = await createBooking({
+        property_id: property.id,
+        check_in: checkIn,
+        check_out: checkOut,
+        guests_count: Number(guests),
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone: phone || undefined,
+        special_requests: specialRequests || undefined,
+      });
+      const co = await createSumupCheckout(booking.id);
+      setCheckout({ id: co.checkout_id, reference: booking.reference });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Booking failed");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  const handlePaid = useCallback(() => {
+    if (checkout) router.push(`/booking/confirmation?ref=${checkout.reference}`);
+  }, [checkout, router]);
+
+  const handlePaymentError = useCallback((msg: string) => setError(msg), []);
 
   return (
     <main className="max-w-7xl mx-auto px-6 pt-18 pb-24">
@@ -112,6 +168,8 @@ export default function BookingPage() {
                   className="w-full bg-surface-container-high rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/40 transition-all border-none outline-none"
                   placeholder="Julian"
                   type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -122,6 +180,8 @@ export default function BookingPage() {
                   className="w-full bg-surface-container-high rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/40 transition-all border-none outline-none"
                   placeholder="Vandervall"
                   type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -132,6 +192,8 @@ export default function BookingPage() {
                   className="w-full bg-surface-container-high rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/40 transition-all border-none outline-none"
                   placeholder="julian@example.com"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -142,6 +204,8 @@ export default function BookingPage() {
                   className="w-full bg-surface-container-high rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/40 transition-all border-none outline-none"
                   placeholder="+44 20 7946 0958"
                   type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className="md:col-span-2 space-y-2">
@@ -152,6 +216,8 @@ export default function BookingPage() {
                   className="w-full bg-surface-container-high rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary/40 transition-all border-none outline-none resize-none"
                   placeholder={t("specialRequestsPlaceholder")}
                   rows={4}
+                  value={specialRequests}
+                  onChange={(e) => setSpecialRequests(e.target.value)}
                 />
               </div>
             </form>
@@ -174,35 +240,23 @@ export default function BookingPage() {
                   <span className="material-symbols-outlined">account_balance_wallet</span>
                 </div>
               </div>
-              {/* SumUp Widget Placeholder */}
-              <div className="bg-[#142032] p-8 rounded-lg flex flex-col items-center justify-center min-h-[200px] relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4">
-                  <div className="flex items-center gap-1 text-[10px] text-primary/60 font-label tracking-tighter">
-                    <span className="material-symbols-outlined text-xs">verified</span>
-                    SUMUP ENCRYPTED
-                  </div>
-                </div>
-                <div className="w-full max-w-sm space-y-6">
-                  <div className="space-y-1">
-                    <div className="h-2 w-24 bg-outline-variant/30 rounded"></div>
-                    <div className="h-12 w-full bg-surface-container-highest/50 rounded flex items-center px-4 justify-between" style={{ border: "1px solid rgba(230,195,100,0.2)" }}>
-                      <div className="flex gap-2">
-                        <div className="h-1 w-8 bg-primary/40 rounded"></div>
-                        <div className="h-1 w-8 bg-primary/40 rounded"></div>
-                        <div className="h-1 w-8 bg-primary/40 rounded"></div>
-                      </div>
-                      <span className="material-symbols-outlined text-primary">credit_card</span>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="h-10 bg-surface-container-highest/30 rounded"></div>
-                    <div className="h-10 bg-surface-container-highest/30 rounded"></div>
-                  </div>
-                </div>
-                <p className="mt-8 text-on-surface-variant text-xs text-center">
-                  {t("paymentSecureNote")}
-                </p>
+              <div className="bg-white rounded-lg p-6 min-h-50">
+                {checkout ? (
+                  <SumupCardWidget
+                    checkoutId={checkout.id}
+                    locale={locale === "fr" ? "fr-FR" : "en-GB"}
+                    onSuccess={handlePaid}
+                    onError={handlePaymentError}
+                  />
+                ) : (
+                  <p className="text-slate-500 text-sm text-center py-12">
+                    {t("paymentWillAppear")}
+                  </p>
+                )}
               </div>
+              <p className="text-on-surface-variant text-xs text-center">
+                {t("paymentSecureNote")}
+              </p>
             </div>
           </section>
 
@@ -228,18 +282,27 @@ export default function BookingPage() {
                 {t("termsAgreement")}
               </span>
             </label>
-            <Link
-              href="/booking/confirmation"
-              className="w-full gold-gradient text-on-primary font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontVariationSettings: "'FILL' 1" }}
+            {error && (
+              <p className="text-error text-sm font-body" role="alert">
+                {error}
+              </p>
+            )}
+            {!checkout && (
+              <button
+                type="button"
+                onClick={handleConfirm}
+                disabled={!agreed || submitting}
+                className="w-full gold-gradient text-on-primary font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                encrypted
-              </span>
-              {t("confirmPay")}
-            </Link>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  encrypted
+                </span>
+                {submitting ? t("submitting") : t("proceedToPayment")}
+              </button>
+            )}
           </div>
         </div>
 
@@ -269,18 +332,22 @@ export default function BookingPage() {
               </div>
               <span className="text-xs text-on-surface-variant mb-1 italic">GBP</span>
             </div>
-            <Link
-              href="/booking/confirmation"
-              className="w-full gold-gradient text-on-primary font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontVariationSettings: "'FILL' 1" }}
+            {!checkout && (
+              <button
+                type="button"
+                onClick={handleConfirm}
+                disabled={!agreed || submitting}
+                className="w-full gold-gradient text-on-primary font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                encrypted
-              </span>
-              {t("confirmPay")}
-            </Link>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  encrypted
+                </span>
+                {submitting ? t("submitting") : t("proceedToPayment")}
+              </button>
+            )}
             <div className="mt-8 flex flex-col items-center gap-4">
               <div className="flex items-center gap-4 grayscale opacity-40">
                 <span className="material-symbols-outlined text-4xl">payments</span>

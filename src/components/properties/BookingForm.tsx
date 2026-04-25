@@ -29,6 +29,11 @@ export default function BookingForm({ property }: BookingFormProps) {
 
   const subtotal = nights * property.pricePerNight;
   const total = subtotal;
+  const today = new Date().toISOString().split("T")[0];
+  const minCheckOut = checkIn
+    ? new Date(new Date(checkIn).getTime() + 86400000).toISOString().split("T")[0]
+    : today;
+  const datesValid = nights > 0 && new Date(checkOut) > new Date(checkIn);
 
   return (
     <div className="bg-surface-container-high rounded-xl p-6 space-y-5 sticky top-24">
@@ -69,7 +74,13 @@ export default function BookingForm({ property }: BookingFormProps) {
           <input
             type="date"
             value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
+            min={today}
+            onChange={(e) => {
+              setCheckIn(e.target.value);
+              if (checkOut && new Date(checkOut) <= new Date(e.target.value)) {
+                setCheckOut("");
+              }
+            }}
             className="bg-surface-container text-on-surface text-sm font-body px-3 py-2.5 rounded-lg outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
           />
         </div>
@@ -80,6 +91,7 @@ export default function BookingForm({ property }: BookingFormProps) {
           <input
             type="date"
             value={checkOut}
+            min={minCheckOut}
             onChange={(e) => setCheckOut(e.target.value)}
             className="bg-surface-container text-on-surface text-sm font-body px-3 py-2.5 rounded-lg outline-none focus:ring-1 focus:ring-primary/50 transition-all duration-200"
           />
@@ -133,6 +145,7 @@ export default function BookingForm({ property }: BookingFormProps) {
       {/* CTA */}
       <button
         onClick={() => {
+          if (!datesValid) return;
           const params = new URLSearchParams({
             checkIn,
             checkOut,
@@ -144,7 +157,8 @@ export default function BookingForm({ property }: BookingFormProps) {
           });
           router.push(`/booking/${property.slug}?${params.toString()}`);
         }}
-        className="w-full gold-gradient text-on-primary text-xs font-label font-semibold tracking-widest uppercase py-4 rounded-full hover:opacity-90 transition-opacity duration-200 flex items-center justify-center"
+        disabled={!datesValid}
+        className="w-full gold-gradient text-on-primary text-xs font-label font-semibold tracking-widest uppercase py-4 rounded-full hover:opacity-90 transition-opacity duration-200 flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
       >
         {t("confirmBooking")}
       </button>

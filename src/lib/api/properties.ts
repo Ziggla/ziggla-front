@@ -61,6 +61,7 @@ function coverFrom(images?: RawImage[]): string {
 
 function mapProperty(raw: RawProperty): Property {
   return {
+    id: raw.id,
     slug: raw.slug,
     hostId: raw.host_id,
     name: raw.name,

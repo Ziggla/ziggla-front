@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { locationDistances } from "@/data/properties";
+import Image from "next/image";
 
 export default function LocationSection() {
   const t = useTranslations("location");
@@ -86,41 +87,15 @@ export default function LocationSection() {
             className="relative rounded-xl overflow-hidden aspect-square lg:aspect-auto lg:h-[500px] bg-surface-container-high"
           >
             {/* Map placeholder with stylized content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8">
-              <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-3xl">
-                  location_on
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="font-headline text-on-surface text-xl font-light mb-1">
-                  Putney, London
-                </p>
-                <p className="text-on-surface-variant text-sm">
-                  SW6 5SL
-                </p>
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-3 w-full max-w-xs">
-                <div className="bg-surface-container rounded-lg p-3 text-center">
-                  <div className="text-primary font-label font-semibold text-lg">700m</div>
-                  <div className="text-on-surface-variant text-xs">Tube</div>
-                </div>
-                <div className="bg-surface-container rounded-lg p-3 text-center">
-                  <div className="text-primary font-label font-semibold text-lg">7km</div>
-                  <div className="text-on-surface-variant text-xs">Westminster</div>
-                </div>
-                <div className="bg-surface-container rounded-lg p-3 text-center">
-                  <div className="text-primary font-label font-semibold text-lg">18km</div>
-                  <div className="text-on-surface-variant text-xs">Heathrow</div>
-                </div>
-                <div className="bg-surface-container rounded-lg p-3 text-center">
-                  <div className="text-primary font-label font-semibold text-lg">20m</div>
-                  <div className="text-on-surface-variant text-xs">Restaurants</div>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
+              <Image
+                src="/images/bridge.png"
+                alt="Map placeholder"
+                width={1200}
+                height={800}
+                className="w-full h-full object-cover rounded-lg filter grayscale opacity-80"
+              />
       </div>
     </section>
   );

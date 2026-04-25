@@ -22,6 +22,7 @@ export interface PropertyImage {
 }
 
 export interface Property {
+  id: string;
   slug: string;
   hostId: string;
   name: string;

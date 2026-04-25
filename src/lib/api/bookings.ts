@@ -206,6 +206,41 @@ export function toBookingListItem(b: Booking): BookingListItem {
 // API functions — connected to NestJS backend
 // ---------------------------------------------------------------------------
 
+export interface CreateBookingPayload {
+  property_id: string;
+  check_in: string;
+  check_out: string;
+  guests_count: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  special_requests?: string;
+}
+
+/** Create a booking (auth required). */
+export async function createBooking(payload: CreateBookingPayload): Promise<Booking> {
+  const raw = await apiFetch<RawBooking>("/bookings", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return mapBooking(raw);
+}
+
+export interface CheckoutInfo {
+  checkout_id: string;
+  reference: string;
+  amount: number;
+  currency: string;
+}
+
+/** Create a SumUp checkout for a booking (auth required). */
+export async function createSumupCheckout(bookingId: string): Promise<CheckoutInfo> {
+  return apiFetch<CheckoutInfo>(`/payments/checkout/${bookingId}`, {
+    method: "POST",
+  });
+}
+
 /** Current user's bookings (auth required). The userId arg is ignored — the API derives it from the JWT. */
 export async function getBookings(_userId?: string): Promise<Booking[]> {
   const raw = await apiFetch<RawBooking[]>("/bookings/me");
