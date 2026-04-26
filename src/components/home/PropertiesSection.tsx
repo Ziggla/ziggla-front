@@ -1,10 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { properties } from "@/data/properties";
+import { getProperties, type Property } from "@/lib/api/properties";
 import PropertyCard from "@/components/properties/PropertyCard";
 import SectionTitle from "@/components/ui/SectionTitle";
 
 export default function PropertiesSection() {
   const t = useTranslations("properties");
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getProperties()
+      .then((p) => {
+        if (!cancelled) setProperties(p);
+      })
+      .catch(() => {
+        /* empty list on failure — section just renders nothing */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section

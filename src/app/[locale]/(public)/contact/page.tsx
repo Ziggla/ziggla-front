@@ -14,12 +14,12 @@ export default async function ContactPage() {
     {
       icon: "mail",
       title: t("emailTitle"),
-      lines: [t("emailConcierge"), t("emailSupport")],
+      lines: [t("emailConcierge"), t("emailSupport")].filter(Boolean),
     },
     {
       icon: "phone",
       title: t("phoneTitle"),
-      lines: [t("phone1"), t("phone2")],
+      lines: [t("phone1"), t("phone2")].filter(Boolean),
     },
     {
       icon: "schedule",

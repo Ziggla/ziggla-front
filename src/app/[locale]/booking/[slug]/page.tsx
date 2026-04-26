@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams, useParams } from "next/navigation";
-import { getPropertyBySlug } from "@/lib/api/properties";
+import { getPropertyBySlug, type Property } from "@/lib/api/properties";
 import {
   createBooking,
   createSumupCheckout,
@@ -14,9 +14,6 @@ import {
 import SumupCardWidget from "@/components/booking/SumupCardWidget";
 import Price from "@/components/Price";
 import { useAuth } from "@/lib/auth/AuthContext";
-
-const LIVING_ROOM =
-  "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg";
 
 export default function BookingPage() {
   const t = useTranslations("bookingPage");
@@ -29,6 +26,7 @@ export default function BookingPage() {
   const [phone, setPhone] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
   const [checkout, setCheckout] = useState<{ id: string; reference: string; bookingId: string } | null>(null);
+  const [property, setProperty] = useState<Property | null>(null);
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
@@ -36,6 +34,16 @@ export default function BookingPage() {
   const slug = String(params.slug);
   const { user } = useAuth();
   const [useAccount, setUseAccount] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    getPropertyBySlug(slug).then((p) => {
+      if (!cancelled) setProperty(p);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   function toggleUseAccount() {
     if (!user) return;
@@ -70,10 +78,10 @@ export default function BookingPage() {
     }
     setSubmitting(true);
     try {
-      const property = await getPropertyBySlug(slug);
-      if (!property) throw new Error("Property not found");
+      const propertyForBooking = property ?? (await getPropertyBySlug(slug));
+      if (!propertyForBooking) throw new Error("Property not found");
       const booking = await createBooking({
-        property_id: property.id,
+        property_id: propertyForBooking.id,
         check_in: checkIn,
         check_out: checkOut,
         guests_count: Number(guests),
@@ -132,14 +140,16 @@ export default function BookingPage() {
           {/* Property Summary Card */}
           <section className="bg-surface-container-low rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm">
             <div className="md:w-1/3 h-64 md:h-auto overflow-hidden relative">
-              <Image
-                src={LIVING_ROOM}
-                alt="Gold Dust Loft"
-                loading="eager"
-                fill
-                className="object-cover hover:scale-110 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
+              {property && (
+                <Image
+                  src={property.coverImage}
+                  alt={property.name}
+                  loading="eager"
+                  fill
+                  className="object-cover hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              )}
             </div>
             <div className="md:w-2/3 p-8 flex flex-col justify-center">
               <div className="flex justify-between items-start mb-4">

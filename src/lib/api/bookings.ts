@@ -1,4 +1,13 @@
 import { apiFetch } from "./client";
+import {
+  coverFrom,
+  initialsOf,
+  num,
+  type RawAmenity,
+  type RawEmbeddedUser,
+  type RawImage,
+  type RawRule,
+} from "./shared";
 
 // ---------------------------------------------------------------------------
 // Types (frontend-facing — camelCase)
@@ -79,12 +88,8 @@ export interface BookingListItem {
 }
 
 // ---------------------------------------------------------------------------
-// Raw API shapes (snake_case as returned by NestJS)
+// Raw API shapes (endpoint-specific — shared building blocks live in ./shared)
 // ---------------------------------------------------------------------------
-
-interface RawImage { url: string; is_cover?: boolean; alt?: string | null }
-interface RawRule { label: string }
-interface RawAmenity { label: string }
 
 interface RawProperty {
   id: string;
@@ -96,13 +101,6 @@ interface RawProperty {
   images?: RawImage[];
   rules?: RawRule[];
   amenities?: RawAmenity[];
-}
-
-interface RawEmbeddedUser {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
 }
 
 interface RawBooking {
@@ -126,22 +124,6 @@ interface RawBooking {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-const PLACEHOLDER_IMAGE = "/images/bridge.png";
-
-function num(v: string | number | undefined | null, d = 0): number {
-  if (v === undefined || v === null) return d;
-  return typeof v === "number" ? v : Number(v);
-}
-
-function initialsOf(first?: string, last?: string): string {
-  return ((first?.[0] ?? "?") + (last?.[0] ?? "?")).toUpperCase();
-}
-
-function coverFrom(images?: RawImage[]): string {
-  if (!images || images.length === 0) return PLACEHOLDER_IMAGE;
-  return images.find((i) => i.is_cover)?.url ?? images[0].url;
-}
 
 function mapEmbeddedUser(u?: RawEmbeddedUser): EmbeddedUser | undefined {
   if (!u) return undefined;
@@ -256,7 +238,21 @@ export interface BookingStatusInfo {
   total: number;
   currency: string;
   payment?: { status: string } | null;
-  property: { name: string; slug: string; address: string };
+  property: {
+    name: string;
+    slug: string;
+    address: string;
+    coverImage: string;
+  };
+}
+
+interface RawBookingStatus extends Omit<BookingStatusInfo, "property"> {
+  property: {
+    name: string;
+    slug: string;
+    address: string;
+    images?: RawImage[];
+  };
 }
 
 /** Fetch a booking (any status) by its reference — used by confirmation page polling. */
@@ -264,7 +260,16 @@ export async function getBookingByReference(
   reference: string,
 ): Promise<BookingStatusInfo | null> {
   try {
-    return await apiFetch<BookingStatusInfo>(`/bookings/me/by-ref/${reference}`);
+    const raw = await apiFetch<RawBookingStatus>(`/bookings/me/by-ref/${reference}`);
+    return {
+      ...raw,
+      property: {
+        name: raw.property.name,
+        slug: raw.property.slug,
+        address: raw.property.address,
+        coverImage: coverFrom(raw.property.images),
+      },
+    };
   } catch (err) {
     if (err instanceof Error && err.message.toLowerCase().includes("not found"))
       return null;

@@ -5,21 +5,20 @@ import {
   type LocationDistance,
 } from "@/data/properties";
 import { apiFetch, mockFetch } from "./client";
+import {
+  coverFrom,
+  num,
+  type RawAmenity,
+  type RawImage,
+  type RawReview,
+  type RawRule,
+} from "./shared";
 
 export type { Property, PropertyImage, LocationDistance };
 
 // ---------------------------------------------------------------------------
-// Raw API shapes
+// Raw API shapes (endpoint-specific — shared building blocks live in ./shared)
 // ---------------------------------------------------------------------------
-
-interface RawImage { id?: string; url: string; alt?: string | null; is_cover?: boolean }
-interface RawAmenity { label: string }
-interface RawRule { label: string }
-interface RawReview {
-  text: string;
-  overall_score?: number | string | null;
-  user?: { first_name: string; last_name: string; nationality?: string | null };
-}
 
 interface RawProperty {
   id: string;
@@ -49,18 +48,6 @@ interface RawProperty {
 // ---------------------------------------------------------------------------
 // Mappers
 // ---------------------------------------------------------------------------
-
-const PLACEHOLDER_IMAGE = "/images/bridge.png";
-
-function num(v: string | number | undefined | null, d = 0): number {
-  if (v === undefined || v === null) return d;
-  return typeof v === "number" ? v : Number(v);
-}
-
-function coverFrom(images?: RawImage[]): string {
-  if (!images || images.length === 0) return PLACEHOLDER_IMAGE;
-  return images.find((i) => i.is_cover)?.url ?? images[0].url;
-}
 
 function mapProperty(raw: RawProperty): Property {
   return {

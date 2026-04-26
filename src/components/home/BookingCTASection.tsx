@@ -1,15 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { properties } from "@/data/properties";
+import { getProperties, type Property } from "@/lib/api/properties";
 
 export default function BookingCTASection() {
   const t = useTranslations("booking");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [selectedProperty, setSelectedProperty] = useState("");
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getProperties()
+      .then((p) => {
+        if (!cancelled) setProperties(p);
+      })
+      .catch(() => {
+        /* empty options on failure */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section

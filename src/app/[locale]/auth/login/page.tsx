@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
@@ -36,12 +37,23 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const user = await login(email, password, rememberMe);
+      // Admins can sign in from any tab; otherwise the selected tab must match.
+      if (user.role !== "admin" && user.role !== role) {
+        const expected = user.role === "host" ? "Host" : "Guest";
+        setError(`This account is a ${expected}. Switch to the ${expected} tab to continue.`);
+        return;
+      }
       router.push(redirectTo || (REDIRECT[user.role] ?? "/"));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function handleRoleChange(tab: RoleTab) {
+    setRole(tab);
+    setError("");
   }
 
   return (
@@ -66,16 +78,20 @@ export default function LoginPage() {
         </div>
 
         {/* Role toggle (user / host) */}
-        <div className="flex bg-surface-container-high rounded-lg p-1 mb-8">
+        <div className="relative flex bg-surface-container-high rounded-lg p-1 mb-8">
+          <motion.div
+            aria-hidden
+            className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] rounded-md bg-primary"
+            animate={{ x: role === "user" ? 0 : "100%" }}
+            transition={{ type: "spring", stiffness: 420, damping: 32 }}
+          />
           {(["user", "host"] as RoleTab[]).map((tab) => (
             <button
               key={tab}
               type="button"
-              onClick={() => setRole(tab)}
-              className={`flex-1 py-2.5 rounded-md text-xs font-bold uppercase tracking-widest transition-all ${
-                role === tab
-                  ? "bg-primary text-on-primary shadow"
-                  : "text-on-surface-variant hover:text-on-surface"
+              onClick={() => handleRoleChange(tab)}
+              className={`relative z-10 flex-1 py-2.5 rounded-md text-xs font-bold uppercase tracking-widest transition-colors ${
+                role === tab ? "text-on-primary" : "text-on-surface-variant hover:text-on-surface"
               }`}
             >
               {tab === "user" ? "Guest" : "Host"}

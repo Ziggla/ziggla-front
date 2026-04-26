@@ -10,23 +10,23 @@
       "type": "Studio",
       "rating": 8.8,
       "reviewCount": 47,
-      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+      "coverImage": "/images/Luxury%20Properties/main.png",
       "images": [
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+          "src": "/images/Luxury%20Properties/main.png",
           "label": "Main View"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg",
-          "label": "Living Area"
+          "src": "/images/Luxury%20Properties/room.png",
+          "label": "Bedroom"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+          "src": "/images/Luxury%20Properties/jacuzzi.png",
           "label": "Jacuzzi"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg",
-          "label": "Kitchen"
+          "src": "/images/Luxury%20Properties/entrance.png",
+          "label": "Entrance"
         }
       ],
       "scores": {
@@ -96,22 +96,22 @@
       "type": "1 Bedroom",
       "rating": 8.6,
       "reviewCount": 63,
-      "coverImage": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+      "coverImage": "/images/Luxury%20apartments/main.png",
       "images": [
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/bathroom-jacuzzi-hearts-yZDjCBsslAEs9Kf6KdQ4WRmBucFYVx.jpg",
+          "src": "/images/Luxury%20apartments/main.png",
           "label": "Main View"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/kitchen-fish-floor-5jLtHgPkTgI3uswTZOlk5Uf7WE9M4i.jpg",
-          "label": "Kitchen"
+          "src": "/images/Luxury%20apartments/room.png",
+          "label": "Bedroom"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg",
-          "label": "Living Area"
+          "src": "/images/Luxury%20apartments/jacuzzi.png",
+          "label": "Jacuzzi"
         },
         {
-          "src": "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg",
+          "src": "/images/Luxury%20apartments/entrance.png",
           "label": "Entrance"
         }
       ],

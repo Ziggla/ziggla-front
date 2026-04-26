@@ -1,4 +1,5 @@
 import { apiFetch } from "./client";
+import { coverFrom, num, type RawImage } from "./shared";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -95,8 +96,6 @@ interface RawOccupancy {
   occupancy_rate: number;
 }
 
-interface RawImage { url: string; is_cover?: boolean }
-
 interface RawProperty {
   id: string;
   slug: string;
@@ -114,18 +113,6 @@ interface RawProperty {
 // ---------------------------------------------------------------------------
 // Mappers
 // ---------------------------------------------------------------------------
-
-const PLACEHOLDER_IMAGE = "/images/bridge.png";
-
-function num(v: string | number | undefined | null, d = 0): number {
-  if (v === undefined || v === null) return d;
-  return typeof v === "number" ? v : Number(v);
-}
-
-function coverFrom(images?: RawImage[]): string {
-  if (!images || images.length === 0) return PLACEHOLDER_IMAGE;
-  return images.find((i) => i.is_cover)?.url ?? images[0].url;
-}
 
 function shortMonth(yyyymm: string): string {
   // "2026-04" → "Apr"

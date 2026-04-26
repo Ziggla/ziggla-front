@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { properties } from "@/data/properties";
+import { getProperties, type Property } from "@/lib/api/properties";
 
 
 export default function SearchPage() {
@@ -13,12 +13,27 @@ export default function SearchPage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("2");
+  const [properties, setProperties] = useState<Property[]>([]);
   const [amenityFilters, setAmenityFilters] = useState({
     jacuzzi: true,
     concierge: false,
     kitchen: true,
     spa: false,
   });
+
+  useEffect(() => {
+    let cancelled = false;
+    getProperties()
+      .then((p) => {
+        if (!cancelled) setProperties(p);
+      })
+      .catch(() => {
+        /* empty list on failure */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const toggleAmenity = (key: keyof typeof amenityFilters) => {
     setAmenityFilters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -28,7 +43,7 @@ export default function SearchPage() {
     <main className="pt-32 pb-20 max-w-7xl mx-auto px-6">
       {/* Sticky Search Bar */}
       <header className="sticky top-20 z-40 mb-12">
-        <div className="bg-[#030e20]/90 backdrop-blur-xl rounded-xl p-4 shadow-2xl flex flex-wrap lg:flex-nowrap items-center gap-4">
+        <div className="bg-surface-container-lowest/90 backdrop-blur-xl rounded-xl p-4 shadow-2xl flex flex-wrap lg:flex-nowrap items-center gap-4">
           <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex flex-col px-4 border-r border-outline-variant/20">
               <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">
@@ -165,7 +180,7 @@ export default function SearchPage() {
               className="group flex flex-col md:flex-row bg-surface-container-low overflow-hidden rounded-lg hover:bg-surface-container transition-all duration-500"
             >
               {/* Image */}
-              <div className="relative w-full md:w-[380px] h-[260px] shrink-0 overflow-hidden">
+              <div className="relative w-full md:w-95 h-65 shrink-0 overflow-hidden">
                 <Image
                   loading="eager"
                   src={property.coverImage}
@@ -174,7 +189,7 @@ export default function SearchPage() {
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                   sizes="380px"
                 />
-                <div className="absolute top-4 left-4 bg-[#030e20]/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
+                <div className="absolute top-4 left-4 bg-surface-container-lowest/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
                   <span
                     className="material-symbols-outlined text-primary text-sm"
                     style={{ fontVariationSettings: "'FILL' 1" }}

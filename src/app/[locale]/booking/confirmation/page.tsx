@@ -10,9 +10,6 @@ import {
   type BookingStatusInfo,
 } from "@/lib/api/bookings";
 
-const STAIRCASE =
-  "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/staircase-yellow-led-wmAz6DzsliK70xHBv5IEaNhlfRBSLJ.jpg";
-
 type View = "loading" | "confirmed" | "pending" | "failed" | "missing";
 
 const POLL_INTERVAL_MS = 3000;
@@ -149,7 +146,7 @@ export default function BookingConfirmationPage() {
             <div className="flex flex-col md:flex-row gap-8 relative z-10">
               <div className="w-full md:w-1/3 h-48 md:h-auto rounded-lg overflow-hidden relative">
                 <Image
-                  src={STAIRCASE}
+                  src={booking.property.coverImage}
                   alt={booking.property.name}
                   loading="eager"
                   fill
