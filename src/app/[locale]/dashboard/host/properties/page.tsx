@@ -1,31 +1,79 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import DashboardShell from "@/components/layout/DashboardShell";
 import PropertyCard from "@/components/dashboard/PropertyCard";
 import { getHostProperties, type HostProperty, type HostPropertyStatus } from "@/lib/api/analytics";
+import { deleteProperty, updateProperty } from "@/lib/api/properties";
+import { getBookingsByHost, type Booking } from "@/lib/api/bookings";
+import Price from "@/components/Price";
+
+const PAID = ["confirmed", "checked_in", "completed"];
+const OCCUPYING = ["confirmed", "checked_in"];
 
 export default function HostPropertiesPage() {
   const [properties, setProperties] = useState<HostProperty[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getHostProperties()
-      .then(setProperties)
-      .catch((err) => console.error("Failed to load host properties", err))
+    Promise.all([getHostProperties(), getBookingsByHost()])
+      .then(([props, bks]) => {
+        setProperties(props);
+        setBookings(bks);
+      })
+      .catch((err) => console.error("Failed to load host data", err))
       .finally(() => setIsLoading(false));
   }, []);
 
   function handleStatusChange(id: string, status: HostPropertyStatus) {
-    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)));
+    const prev = properties;
+    setProperties((p) => p.map((x) => (x.id === id ? { ...x, status } : x)));
+    updateProperty(id, { is_active: status === "active" }).catch((err) => {
+      console.error("Failed to update status", err);
+      setProperties(prev);
+    });
   }
 
-  const totalRevenue = properties.reduce((acc, p) => acc + p.revenueThisMonth, 0);
-  const avgOccupancy =
-    properties.length > 0
-      ? Math.round(properties.reduce((acc, p) => acc + p.occupancyRate, 0) / properties.length)
-      : 0;
+  function handleDelete(id: string) {
+    const prev = properties;
+    setProperties((p) => p.filter((x) => x.id !== id));
+    deleteProperty(id).catch((err) => {
+      console.error("Failed to delete property", err);
+      setProperties(prev);
+    });
+  }
+
+  const { totalRevenue, avgOccupancy } = useMemo(() => {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    const nightsInMonth = monthEnd.getDate();
+
+    const revenue = bookings
+      .filter((b) => {
+        if (!PAID.includes(b.status)) return false;
+        const ci = new Date(b.checkIn);
+        return ci >= monthStart && ci <= monthEnd;
+      })
+      .reduce((acc, b) => acc + b.total, 0);
+
+    let occupiedNights = 0;
+    for (const b of bookings) {
+      if (!OCCUPYING.includes(b.status)) continue;
+      const ci = new Date(b.checkIn);
+      const co = new Date(b.checkOut);
+      const start = ci > monthStart ? ci : monthStart;
+      const end = co < monthEnd ? co : monthEnd;
+      const ms = end.getTime() - start.getTime();
+      if (ms > 0) occupiedNights += Math.ceil(ms / 86_400_000);
+    }
+    const totalSlots = Math.max(1, properties.length) * nightsInMonth;
+    const occupancy = Math.min(100, Math.round((occupiedNights / totalSlots) * 100));
+
+    return { totalRevenue: revenue, avgOccupancy: occupancy };
+  }, [bookings, properties]);
 
   return (
     <DashboardShell role="host" activeItem="properties">
@@ -83,7 +131,11 @@ export default function HostPropertiesPage() {
                 account_balance_wallet
               </span>
               <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-3">Revenue This Month</p>
-              <p className="text-4xl font-headline text-primary">£{totalRevenue.toLocaleString("en-GB")}</p>
+              <Price
+                amount={totalRevenue}
+                fractionDigits={0}
+                className="text-4xl font-headline text-primary"
+              />
             </div>
           </section>
 
@@ -93,7 +145,12 @@ export default function HostPropertiesPage() {
           ) : properties.length > 0 ? (
             <div className="space-y-6">
               {properties.map((p) => (
-                <PropertyCard key={p.id} property={p} onStatusChange={handleStatusChange} />
+                <PropertyCard
+                  key={p.id}
+                  property={p}
+                  onStatusChange={handleStatusChange}
+                  onDelete={handleDelete}
+                />
               ))}
             </div>
           ) : (

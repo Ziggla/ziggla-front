@@ -27,6 +27,9 @@ interface RawProperty {
   name: string;
   address: string;
   neighborhood: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  place_id: string | null;
   type: string | null;
   size_sqm: number | null;
   price_per_night: string | number;
@@ -64,6 +67,9 @@ function mapProperty(raw: RawProperty): Property {
     id: raw.id,
     slug: raw.slug,
     hostId: raw.host_id,
+    latitude: raw.latitude ?? null,
+    longitude: raw.longitude ?? null,
+    placeId: raw.place_id ?? null,
     name: raw.name,
     address: raw.address,
     neighborhood: raw.neighborhood ?? "",
@@ -99,6 +105,92 @@ export async function getProperties(): Promise<Property[]> {
 }
 
 /** Public property detail by slug. Returns null on 404. */
+export interface CreatePropertyPayload {
+  slug: string;
+  name: string;
+  address: string;
+  neighborhood?: string;
+  latitude?: number;
+  longitude?: number;
+  place_id?: string;
+  type?: string;
+  size_sqm?: number;
+  price_per_night: number;
+  check_in_time?: string;
+  check_out_time?: string;
+  deposit?: string;
+  max_guests?: number;
+  amenities?: string[];
+  rules?: string[];
+}
+
+export async function createProperty(
+  payload: CreatePropertyPayload,
+): Promise<Property> {
+  const raw = await apiFetch<RawProperty>("/properties", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return mapProperty(raw);
+}
+
+export async function uploadPropertyImages(
+  id: string,
+  files: File[],
+): Promise<void> {
+  const form = new FormData();
+  for (const f of files) form.append("files", f);
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/api/v1";
+  const stored = typeof localStorage !== "undefined" ? localStorage.getItem("ziggla_auth") : null;
+  const token = stored ? (JSON.parse(stored) as { token?: string }).token : null;
+  const res = await fetch(`${baseUrl}/properties/${id}/images`, {
+    method: "POST",
+    body: form,
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
+  if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
+}
+
+export interface UpdatePropertyPayload {
+  name?: string;
+  address?: string;
+  neighborhood?: string;
+  latitude?: number;
+  longitude?: number;
+  place_id?: string;
+  price_per_night?: number;
+  is_active?: boolean;
+}
+
+export interface AvailabilityRange {
+  check_in: string;
+  check_out: string;
+  reference?: string;
+  status?: string;
+}
+
+export async function getPropertyAvailability(
+  slugOrId: string,
+): Promise<AvailabilityRange[]> {
+  return apiFetch<AvailabilityRange[]>(`/properties/${slugOrId}/availability`);
+}
+
+export async function deleteProperty(id: string): Promise<void> {
+  await apiFetch<void>(`/properties/${id}`, { method: "DELETE" });
+}
+
+export async function updateProperty(
+  id: string,
+  payload: UpdatePropertyPayload,
+): Promise<Property> {
+  const raw = await apiFetch<RawProperty>(`/properties/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+  return mapProperty(raw);
+}
+
 export async function getPropertyBySlug(slug: string): Promise<Property | null> {
   try {
     const raw = await apiFetch<RawProperty>(`/properties/${slug}`);

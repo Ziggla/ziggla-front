@@ -1,4 +1,6 @@
 import { getTranslations } from "next-intl/server";
+import PropertyMap from "@/components/maps/PropertyMap";
+import ContactForm from "@/components/contact/ContactForm";
 
 export default async function ContactPage() {
   const t = await getTranslations("contact");
@@ -53,65 +55,7 @@ export default async function ContactPage() {
           <div className="lg:col-span-5">
             <div className="bg-surface-container-low p-8 rounded-xl">
               <h2 className="text-xl font-headline text-on-surface mb-6">{t("sendMessage")}</h2>
-              <form className="space-y-5" action="#">
-                <div className="space-y-2">
-                  <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
-                    {t("fullName")}
-                  </label>
-                  <input
-                    className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all"
-                    placeholder="Alex Mercer"
-                    type="text"
-                    name="fullName"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
-                    {t("email")}
-                  </label>
-                  <input
-                    className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all"
-                    placeholder="name@example.com"
-                    type="email"
-                    name="email"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
-                    {t("subject")}
-                  </label>
-                  <select
-                    className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface focus:ring-1 focus:ring-primary/40 outline-none transition-all appearance-none"
-                    name="subject"
-                  >
-                    <option value="">— Select —</option>
-                    {subjects.map((subject, idx) => (
-                      <option key={idx} value={subject}>{subject}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
-                    {t("message")}
-                  </label>
-                  <textarea
-                    className="w-full bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary/40 outline-none transition-all resize-none"
-                    placeholder={t("messagePlaceholder")}
-                    rows={5}
-                    name="message"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full gold-gradient py-4 rounded-lg font-label font-bold text-on-primary uppercase tracking-widest transition-all hover:opacity-90 active:scale-[0.98]"
-                >
-                  {t("sendBtn")}
-                </button>
-              </form>
+              <ContactForm subjects={subjects} />
             </div>
           </div>
 
@@ -150,23 +94,17 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      {/* Map Placeholder */}
+      {/* Map */}
       <section className="max-w-7xl mx-auto px-6 lg:px-12 mt-16">
-        <div
-          className="w-full h-64 bg-surface-container-low rounded-xl flex items-center justify-center relative overflow-hidden"
-        >
-          <div className="absolute inset-0 opacity-5 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-primary" />
-          </div>
-          <div className="text-center z-10">
-            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                location_on
-              </span>
-            </div>
-            <p className="text-on-surface font-bold">800 Fulham Road</p>
-            <p className="text-on-surface-variant text-sm">Putney, London SW6 5SL</p>
-          </div>
+        <PropertyMap
+          latitude={51.4778}
+          longitude={-0.2057}
+          address="800 Fulham Road, Putney, London SW6 5SL"
+          className="h-96"
+        />
+        <div className="mt-4">
+          <p className="text-on-surface font-bold">800 Fulham Road</p>
+          <p className="text-on-surface-variant text-sm">Putney, London SW6 5SL</p>
         </div>
       </section>
     </main>

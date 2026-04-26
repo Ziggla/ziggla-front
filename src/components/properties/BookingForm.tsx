@@ -1,13 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import type { Property } from "@/data/properties";
 import { useRouter } from "@/i18n/navigation";
 import Price from "@/components/Price";
+import {
+  getPropertyAvailability,
+  type AvailabilityRange,
+} from "@/lib/api/properties";
 
 interface BookingFormProps {
   property: Property;
+}
+
+function rangesOverlap(
+  aStart: Date,
+  aEnd: Date,
+  bStart: Date,
+  bEnd: Date,
+): boolean {
+  return aStart < bEnd && aEnd > bStart;
 }
 
 export default function BookingForm({ property }: BookingFormProps) {
@@ -16,6 +29,35 @@ export default function BookingForm({ property }: BookingFormProps) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+  const [availability, setAvailability] = useState<AvailabilityRange[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getPropertyAvailability(property.id)
+      .then((d) => {
+        if (!cancelled) setAvailability(d);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [property.id]);
+
+  const bookedRanges = useMemo(
+    () =>
+      availability.map((r) => ({
+        start: new Date(r.check_in),
+        end: new Date(r.check_out),
+      })),
+    [availability],
+  );
+
+  const conflict = useMemo(() => {
+    if (!checkIn || !checkOut) return false;
+    const ci = new Date(checkIn);
+    const co = new Date(checkOut);
+    return bookedRanges.some((b) => rangesOverlap(ci, co, b.start, b.end));
+  }, [checkIn, checkOut, bookedRanges]);
 
   const nights =
     checkIn && checkOut
@@ -34,7 +76,8 @@ export default function BookingForm({ property }: BookingFormProps) {
   const minCheckOut = checkIn
     ? new Date(new Date(checkIn).getTime() + 86400000).toISOString().split("T")[0]
     : today;
-  const datesValid = nights > 0 && new Date(checkOut) > new Date(checkIn);
+  const datesValid =
+    nights > 0 && new Date(checkOut) > new Date(checkIn) && !conflict;
 
   return (
     <div className="bg-surface-container-high rounded-xl p-6 space-y-5 sticky top-24">
@@ -143,6 +186,25 @@ export default function BookingForm({ property }: BookingFormProps) {
             />
           </div>
         </div>
+      )}
+
+      {conflict && (
+        <p className="text-error text-xs">{t("datesUnavailable")}</p>
+      )}
+
+      {bookedRanges.length > 0 && (
+        <details className="text-xs text-on-surface-variant">
+          <summary className="cursor-pointer hover:text-on-surface">
+            {t("bookedDates")} ({bookedRanges.length})
+          </summary>
+          <ul className="mt-2 space-y-1">
+            {bookedRanges.map((b, i) => (
+              <li key={i}>
+                {b.start.toLocaleDateString()} → {b.end.toLocaleDateString()}
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
 
       {/* CTA */}

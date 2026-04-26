@@ -13,6 +13,7 @@ import {
 } from "@/lib/api/bookings";
 import SumupCardWidget from "@/components/booking/SumupCardWidget";
 import Price from "@/components/Price";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 const LIVING_ROOM =
   "https://mjduzgj5bbgoqbn6.public.blob.vercel-storage.com/luxury-properties/living-room-yellow-BlzWRvJ05uw2wxeDobW7VshHs0zAJE.jpg";
@@ -33,6 +34,20 @@ export default function BookingPage() {
   const router = useRouter();
   const locale = useLocale();
   const slug = String(params.slug);
+  const { user } = useAuth();
+  const [useAccount, setUseAccount] = useState(false);
+
+  function toggleUseAccount() {
+    if (!user) return;
+    const next = !useAccount;
+    setUseAccount(next);
+    if (next) {
+      setFirstName(user.firstName ?? "");
+      setLastName(user.lastName ?? "");
+      setEmail(user.email ?? "");
+      setPhone((user as { phone?: string }).phone ?? phone);
+    }
+  }
 
   const checkIn = searchParams.get("checkIn") ?? "";
   const checkOut = searchParams.get("checkOut") ?? "";
@@ -180,7 +195,20 @@ export default function BookingPage() {
 
           {/* Guest Details Form */}
           <section>
-            <h3 className="font-headline text-2xl mb-8">{t("guestDetails")}</h3>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+              <h3 className="font-headline text-2xl">{t("guestDetails")}</h3>
+              {user && (
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-on-surface-variant hover:text-on-surface">
+                  <input
+                    type="checkbox"
+                    checked={useAccount}
+                    onChange={toggleUseAccount}
+                    className="accent-primary"
+                  />
+                  {t("useMyAccount")}
+                </label>
+              )}
+            </div>
             <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="font-label text-xs text-on-surface-variant ml-1 uppercase tracking-widest">

@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { properties, getPropertyBySlug } from "@/data/properties";
+import { getPropertyBySlug } from "@/lib/api/properties";
 import PropertyGallery from "@/components/properties/PropertyGallery";
 import AmenitiesList from "@/components/properties/AmenitiesList";
 import HouseRules from "@/components/properties/HouseRules";
 import BookingForm from "@/components/properties/BookingForm";
+import PropertyMap from "@/components/maps/PropertyMap";
 
-export function generateStaticParams() {
-  return properties.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -16,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug } = await params;
-  const property = getPropertyBySlug(slug);
+  const property = await getPropertyBySlug(slug);
   if (!property) return {};
   return {
     title: `${property.name} | ZIGGLA`,
@@ -30,7 +29,7 @@ export default async function PropertyDetailPage({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug } = await params;
-  const property = getPropertyBySlug(slug);
+  const property = await getPropertyBySlug(slug);
 
   if (!property) {
     notFound();
@@ -217,19 +216,15 @@ export default async function PropertyDetailPage({
               <p className="text-on-surface-variant font-body text-sm mb-4">
                 {t("fromTube")}
               </p>
-              <div className="rounded-xl overflow-hidden h-48 bg-surface-container-high flex items-center justify-center gap-4">
-                <span className="material-symbols-outlined text-primary text-3xl">
-                  location_on
-                </span>
-                <div>
-                  <div className="font-headline text-on-surface font-light">
-                    Putney, London SW6 5SL
-                  </div>
-                  <div className="text-on-surface-variant text-sm">
-                    {property.address}
-                  </div>
-                </div>
-              </div>
+              <PropertyMap
+                latitude={property.latitude}
+                longitude={property.longitude}
+                placeId={property.placeId}
+                address={property.address}
+              />
+              <p className="text-on-surface-variant text-sm mt-3">
+                {property.address}
+              </p>
             </div>
           </div>
 

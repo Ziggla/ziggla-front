@@ -28,6 +28,9 @@ export interface Property {
   name: string;
   address: string;
   neighborhood: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  placeId?: string | null;
   size: number;
   type: string;
   rating: number;

@@ -17,9 +17,14 @@ export const STATUS_CONFIG: Record<
 interface PropertyCardProps {
   property: HostProperty;
   onStatusChange: (id: string, status: HostPropertyStatus) => void;
+  onDelete?: (id: string) => void;
 }
 
-export default function PropertyCard({ property, onStatusChange }: PropertyCardProps) {
+export default function PropertyCard({
+  property,
+  onStatusChange,
+  onDelete,
+}: PropertyCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [statusDropOpen, setStatusDropOpen] = useState(false);
   const status = STATUS_CONFIG[property.status];
@@ -104,13 +109,35 @@ export default function PropertyCard({ property, onStatusChange }: PropertyCardP
                 style={{ border: "1px solid rgba(77,70,55,0.2)", minWidth: "160px" }}
               >
                 {[
-                  { icon: "pause_circle", label: "Pause listing" },
-                  { icon: "content_copy", label: "Duplicate" },
-                  { icon: "delete", label: "Delete", danger: true },
-                ].map(({ icon, label, danger }) => (
+                  {
+                    icon: "pause_circle",
+                    label: property.status === "active" ? "Pause listing" : "Activate listing",
+                    onClick: () =>
+                      onStatusChange(
+                        property.id,
+                        property.status === "active" ? "inactive" : "active",
+                      ),
+                  },
+                  {
+                    icon: "delete",
+                    label: "Delete",
+                    danger: true,
+                    onClick: () => {
+                      if (
+                        onDelete &&
+                        confirm(`Delete "${property.name}"? This cannot be undone.`)
+                      ) {
+                        onDelete(property.id);
+                      }
+                    },
+                  },
+                ].map(({ icon, label, danger, onClick }) => (
                   <button
                     key={label}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      onClick?.();
+                    }}
                     className={`w-full text-left px-4 py-2.5 text-xs font-medium flex items-center gap-2 hover:bg-surface-container-high transition-colors ${
                       danger ? "text-error" : "text-on-surface-variant hover:text-on-surface"
                     }`}
