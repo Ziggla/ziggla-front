@@ -8,11 +8,6 @@ import { useAuth } from "@/lib/auth/AuthContext";
 
 type RoleTab = "user" | "host";
 
-const DEMO: Record<RoleTab, { email: string; password: string }> = {
-  user: { email: "user@ziggla.com", password: "ziggla123" },
-  host: { email: "host@ziggla.com", password: "ziggla123" },
-};
-
 export default function LoginPage() {
   const t = useTranslations("auth");
   const router = useRouter();
@@ -49,13 +44,6 @@ export default function LoginPage() {
     }
   }
 
-  function fillDemo(tab: RoleTab) {
-    setRole(tab);
-    setEmail(DEMO[tab].email);
-    setPassword(DEMO[tab].password);
-    setError("");
-  }
-
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-background relative overflow-hidden">
       {/* Wave Background */}
@@ -83,7 +71,7 @@ export default function LoginPage() {
             <button
               key={tab}
               type="button"
-              onClick={() => fillDemo(tab)}
+              onClick={() => setRole(tab)}
               className={`flex-1 py-2.5 rounded-md text-xs font-bold uppercase tracking-widest transition-all ${
                 role === tab
                   ? "bg-primary text-on-primary shadow"
@@ -93,11 +81,6 @@ export default function LoginPage() {
               {tab === "user" ? "Guest" : "Host"}
             </button>
           ))}
-        </div>
-
-        {/* Demo hint */}
-        <div className="mb-6 px-4 py-3 rounded-lg bg-primary/5 border border-primary/10 text-xs text-on-surface-variant">
-          <span className="text-primary font-bold">Demo</span> — {DEMO[role].email} / {DEMO[role].password}
         </div>
 
         <form className="space-y-6" onSubmit={handleSubmit}>

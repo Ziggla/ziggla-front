@@ -70,9 +70,7 @@ export default function AdminLoginPage() {
 
           {/* Demo hint */}
           <div className="mb-6 px-4 py-3 rounded-lg bg-primary/5 border border-primary/10 text-xs text-on-surface-variant">
-            <span className="text-primary font-bold">Demo</span> — admin@ziggla.com / ziggla123
           </div>
-
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest px-1">
