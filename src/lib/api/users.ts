@@ -74,6 +74,49 @@ function mapUser(raw: RawUser, idx = 0): User {
 // ---------------------------------------------------------------------------
 
 /** Admin: list all users. */
+export interface MeProfile {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string | null;
+  nationality: string | null;
+  avatar_url: string | null;
+  language: "en" | "fr";
+  notif_booking_updates: boolean;
+  notif_sms: boolean;
+  notif_marketing: boolean;
+  role: string;
+}
+
+export function getMe(): Promise<MeProfile> {
+  return apiFetch<MeProfile>("/users/me");
+}
+
+export function updateMe(payload: {
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  nationality?: string;
+}): Promise<MeProfile> {
+  return apiFetch<MeProfile>("/users/me", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function updatePreferences(payload: {
+  language?: "en" | "fr";
+  notif_booking_updates?: boolean;
+  notif_sms?: boolean;
+  notif_marketing?: boolean;
+}): Promise<MeProfile> {
+  return apiFetch<MeProfile>("/users/me/preferences", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
 export async function getUsers(): Promise<User[]> {
   const raw = await apiFetch<RawUser[]>("/users");
   return raw.map(mapUser);

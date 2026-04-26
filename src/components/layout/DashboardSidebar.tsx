@@ -20,6 +20,7 @@ interface DashboardSidebarProps {
 const userNavItems: NavItem[] = [
   { icon: "dashboard", labelKey: "dashboard", href: "/dashboard/user" },
   { icon: "calendar_month", labelKey: "bookings", href: "/dashboard/user/bookings" },
+  { icon: "chat_bubble", labelKey: "messages", href: "/dashboard/user/messages" },
   { icon: "person", labelKey: "profile", href: "/dashboard/user/profile" },
   { icon: "support_agent", labelKey: "support", href: "/contact" },
 ];
