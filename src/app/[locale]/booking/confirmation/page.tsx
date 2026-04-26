@@ -19,14 +19,11 @@ export default function BookingConfirmationPage() {
   const t = useTranslations("confirmation");
   const searchParams = useSearchParams();
   const reference = searchParams.get("ref");
-  const [view, setView] = useState<View>("loading");
+  const [view, setView] = useState<View>(reference ? "loading" : "missing");
   const [booking, setBooking] = useState<BookingStatusInfo | null>(null);
 
   useEffect(() => {
-    if (!reference) {
-      setView("missing");
-      return;
-    }
+    if (!reference) return;
     let cancelled = false;
     const startedAt = Date.now();
 
