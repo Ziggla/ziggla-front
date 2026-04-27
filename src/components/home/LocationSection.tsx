@@ -73,7 +73,7 @@ export default function LocationSection() {
           >
             {/* Map placeholder with stylized content */}
             <Image
-              src="/images/putney.png"
+              src="/images/Putney.png"
               alt="Map placeholder"
               width={1200}
               height={800}
